@@ -6,6 +6,10 @@ export class AuthController {
     return ApiClient.Post(ApiPath.LOGIN, [], body);
   };
 
+  static loginCompany = (body) => {
+    return ApiClient.Post(ApiPath.COMPANY_LOGIN, [], body);
+  };
+
   static getCurrentUser = () => {
     return ApiClient.Get(ApiPath.CURRENT_USER, [], {});
   };

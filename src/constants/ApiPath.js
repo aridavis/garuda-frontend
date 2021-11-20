@@ -8,5 +8,7 @@ export const ApiPath = {
   LOGOUT: Constant.API_PATH + "/auth/logout",
   CURRENT_USER: Constant.API_PATH + "/auth/user",
 
+  COMPANY_LOGIN: Constant.API_PATH + "/auth/co/login",
+
   REGISTER_JOBSEEKER: Constant.API_PATH + "/users/jobseeker",
 };

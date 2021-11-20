@@ -3,8 +3,13 @@ import InputField from "../../components/InputField";
 import { generateInputFieldProps } from "../../props/InputFieldProps";
 import { UserController } from "../../controllers/UserController";
 import SnackbarUtils from "../../utils/SnackbarUtils";
+import { setFormikErrors } from "../../utils/formikHelpers";
+import { useState } from "react";
+import ImageUploadField from "../../components/ImageUploadField";
 
 function SignInScreen() {
+  const [image, setImage] = useState(null);
+
   const inputs = [
     generateInputFieldProps(
       "first_name",
@@ -62,11 +67,21 @@ function SignInScreen() {
   const formik = useFormik({
     initialValues: {},
     onSubmit: (values, formikHelpers) => {
-      UserController.registerJobseeker(formik.values).then((res) => {
-        SnackbarUtils.success(
-          "Success registering user, please sign in again."
-        );
-      });
+      UserController.registerJobseeker(formik.values)
+        .then((res) => {
+          SnackbarUtils.success(
+            "Success registering user, please sign in again."
+          );
+        })
+        .catch((err) => {
+          try {
+            if (err.response.status === 400) {
+              setFormikErrors(err.response.data, formikHelpers.setFieldError);
+            }
+          } catch (err) {
+            console.log(err);
+          }
+        });
     },
   });
 
@@ -150,13 +165,23 @@ function SignInScreen() {
                         />
                       ) : (
                         <div className="col-span-2">
-                          <InputField
-                            {...f}
-                            {...formik}
-                            value={formik.values[f.name]}
-                            onChange={formik.handleChange}
-                            setFieldValue={formik.setFieldValue}
-                            limit={1}
+                          <ImageUploadField
+                            error={Boolean(
+                              !formik.touched.image_url &&
+                                formik.errors.image_url
+                            )}
+                            helperText={
+                              !formik.touched.image_url &&
+                              formik.errors.image_url
+                            }
+                            label="Profile Picture"
+                            formikProps={formik.getFieldProps}
+                            onChange={(f) => {
+                              console.log(f);
+                              formik.setFieldValue("image_url", f);
+                              setImage(f);
+                            }}
+                            value={image}
                           />
                         </div>
                       )

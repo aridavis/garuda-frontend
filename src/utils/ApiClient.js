@@ -21,28 +21,6 @@ client.interceptors.response.use(
     return response;
   },
   (error) => {
-    try {
-      if (error.response.status === 401) {
-        SnackbarUtils.error("Unauthorized");
-      } else {
-        if (
-          error.response !== undefined &&
-          error.response.data.errorMessage.length > 0
-        ) {
-          SnackbarUtils.error(error.response.data.errorMessage);
-        } else {
-          SnackbarUtils.error(
-            "Error " +
-              error.response?.status +
-              ": " +
-              error.response?.statusText
-          );
-        }
-      }
-    } catch (exception) {
-      SnackbarUtils.error("Unspecified error.");
-    }
-
     return Promise.reject(error);
   }
 );
@@ -63,7 +41,7 @@ export default class ApiClient {
     Object.keys(body).forEach(function (key) {
       data.append(key, body[key]);
     });
-    return client?.post(ApiClient.buildUrl(url, pathVariables), body);
+    return client?.post(ApiClient.buildUrl(url, pathVariables), data);
   };
 
   static Put = (url, pathVariables, body) => {

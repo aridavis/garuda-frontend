@@ -2,6 +2,12 @@ import { useFormik } from "formik";
 import logo from "../../assets/logo.png";
 import { generateInputFieldProps } from "../../props/InputFieldProps";
 import InputField from "../../components/InputField";
+import { AuthController } from "../../controllers/AuthController";
+import { Constant } from "../../constants/Constant";
+import { setFormikErrors } from "../../utils/formikHelpers";
+import SnackbarUtils from "../../utils/SnackbarUtils";
+
+const cookie = require("react-cookies");
 
 function CompanyLoginScreen() {
   const inputs = [
@@ -22,8 +28,39 @@ function CompanyLoginScreen() {
 
   const formik = useFormik({
     initialValues: {},
-    onSubmit: (values) => {
-      console.log(values);
+
+    onSubmit: (values, formikHelpers) => {
+      AuthController.loginCompany({
+        email: values.email,
+        password: values.password,
+        remember_me: values.check !== undefined && values.check.length > 0,
+      })
+        .then((res) => {
+          cookie.save(Constant.ACCESS_TOKEN, res.data.access_token, {
+            path: "/",
+            expires: new Date(res.data.expires_at),
+          });
+          window.location.href = "/";
+        })
+        .catch((err) => {
+          try {
+            switch (err.response.status) {
+              case 400:
+                setFormikErrors(err.response.data, formikHelpers.setFieldError);
+                break;
+              case 401:
+                setFormikErrors(
+                  { email: ["email or password is invalid"] },
+                  formikHelpers.setFieldError
+                );
+                break;
+              default:
+                SnackbarUtils.error("Something went wrong");
+            }
+          } catch (err) {
+            SnackbarUtils.error("Something went wrong");
+          }
+        });
     },
   });
 
@@ -40,14 +77,10 @@ function CompanyLoginScreen() {
           </div>
           <div className="mt-8">
             <div className="mt-6">
-              <form
-                onSubmit={formik.handleSubmit}
-                action="#"
-                method="POST"
-                className="space-y-6"
-              >
+              <form onSubmit={formik.handleSubmit} className="space-y-6">
                 {inputs.map((f) => (
                   <InputField
+                    {...formik}
                     {...f}
                     value={formik.values[f.name]}
                     onChange={formik.handleChange}

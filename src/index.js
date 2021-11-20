@@ -4,11 +4,25 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { UserContextProvider } from "./context/UserContext";
+import { SnackbarProvider } from "notistack";
+import { Button } from "@mui/material";
+import SnackbarUtils from "./utils/SnackbarUtils";
 
 ReactDOM.render(
   <React.StrictMode>
     <UserContextProvider>
-      <App />
+      <SnackbarProvider
+        maxSnack={1}
+        action={(key) => {
+          return (
+            <Button onClick={() => SnackbarUtils.closeSnackbar(key)}>
+              Dismiss
+            </Button>
+          );
+        }}
+      >
+        <App />
+      </SnackbarProvider>
     </UserContextProvider>
   </React.StrictMode>,
   document.getElementById("root")

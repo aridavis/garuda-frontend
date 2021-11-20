@@ -28,7 +28,6 @@ function LoginScreen() {
   const formik = useFormik({
     initialValues: {},
     onSubmit: (values, formikHelpers) => {
-      console.log(values);
       AuthController.login({
         email: values.email,
         password: values.password,

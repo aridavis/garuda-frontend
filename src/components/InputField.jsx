@@ -20,6 +20,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import Autocomplete from "./Autocomplete";
 import MultipleAutocomplete from "./MultipleAutoComplete";
 import { DateTimePicker } from "@mui/lab";
+import moment from "moment";
 
 const InputField = (props) => {
   const [initialImages, setInitialImages] = useState([]);
@@ -54,7 +55,7 @@ const InputField = (props) => {
         value={data.value}
         onChange={(value) => {
           console.log("setting value to", value);
-          props.setFieldValue(data.name, value);
+          props.setFieldValue(data.name, moment(value).format("YYYY-MM-DD"));
         }}
         renderInput={(params) => <TextField {...params} />}
         animateYearScrolling

@@ -1,6 +1,6 @@
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import React, { Component } from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { SnackbarProvider } from "notistack";
 import HomeScreen from "./pages/home/HomeScreen";
@@ -10,39 +10,42 @@ import { MeetingContextProvider } from "./context/MeetingContext";
 import CompanyLoginScreen from "./pages/login/CompanyLoginScreen";
 import LogInScreen from "./pages/login/LogInScreen";
 import SignInScreen from "./pages/signin/SignInScreen";
+import SnackbarUtils from "./utils/SnackbarUtils";
+import { useSnackbar } from "notistack";
 
-export class App extends Component {
-  render() {
-    return (
-      <SnackbarProvider maxSnack={3}>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <div>
-            <Router>
-              <Routes>
-                <Route exact path="/" element={<HomeScreen />} />
-                <Route
-                  exact
-                  path="/co/login"
-                  element={<CompanyLoginScreen />}
-                />
-                <Route exact path="/login" element={<LogInScreen />} />
-                <Route exact path="/signin" element={<SignInScreen />} />
-                <Route
-                  exact
-                  path="/meeting"
-                  element={
-                    <MeetingContextProvider>
-                      <MeetingScreen />
-                    </MeetingContextProvider>
-                  }
-                />
-              </Routes>
-            </Router>
-          </div>
-        </LocalizationProvider>
-      </SnackbarProvider>
-    );
-  }
-}
+const App = () => {
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
+  useEffect(() => {
+    SnackbarUtils.setSnackBar(enqueueSnackbar, closeSnackbar);
+    // eslint-disable-next-line
+  }, []);
+
+  return (
+    <SnackbarProvider maxSnack={3}>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <div>
+          <Router>
+            <Routes>
+              <Route exact path="/" element={<HomeScreen />} />
+              <Route exact path="/co/login" element={<CompanyLoginScreen />} />
+              <Route exact path="/login" element={<LogInScreen />} />
+              <Route exact path="/signin" element={<SignInScreen />} />
+              <Route
+                exact
+                path="/meeting"
+                element={
+                  <MeetingContextProvider>
+                    <MeetingScreen />
+                  </MeetingContextProvider>
+                }
+              />
+            </Routes>
+          </Router>
+        </div>
+      </LocalizationProvider>
+    </SnackbarProvider>
+  );
+};
 
 export default App;
