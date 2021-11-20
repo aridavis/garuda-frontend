@@ -198,12 +198,8 @@ export default function MeetingScreen() {
             aria-labelledby="primary-heading"
             className="min-w-0 flex-1 h-full flex flex-col overflow-hidden lg:order-last"
           >
-            <h1 id="primary-heading" className="sr-only"></h1>
             <VideoCall socket={socket} />
-            {/*<VideoPlayer socket={socket} />*/}
-            {/*<Sidebar>*/}
-            {/*  <Notifications />*/}
-            {/*</Sidebar>*/}
+
             <ChatBox socket={socket} />
           </section>
 

@@ -1,8 +1,5 @@
 import { Grid, TextField } from "@mui/material";
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { MeetingContext } from "../../context/MeetingContext";
-import { io } from "socket.io-client";
-import { Constant } from "../../constants/Constant";
+import React, { useEffect, useRef, useState } from "react";
 
 export default function ChatBox({ socket }) {
   const [chats, setChats] = useState([]);

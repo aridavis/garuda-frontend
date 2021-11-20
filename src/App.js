@@ -20,10 +20,22 @@ export class App extends Component {
             <Router>
               <Routes>
                 <Route exact path="/" element={<HomeScreen />} />
-                <Route exact path="/co/login" element={<CompanyLoginScreen />} />
+                <Route
+                  exact
+                  path="/co/login"
+                  element={<CompanyLoginScreen />}
+                />
                 <Route exact path="/login" element={<LogInScreen />} />
                 <Route exact path="/signin" element={<SignInScreen />} />
-                <Route exact path="/meeting" element={<MeetingContextProvider><MeetingScreen /></MeetingContextProvider>} />
+                <Route
+                  exact
+                  path="/meeting"
+                  element={
+                    <MeetingContextProvider>
+                      <MeetingScreen />
+                    </MeetingContextProvider>
+                  }
+                />
               </Routes>
             </Router>
           </div>

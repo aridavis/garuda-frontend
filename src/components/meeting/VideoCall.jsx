@@ -1,10 +1,8 @@
 import React, { useContext, useEffect } from "react";
-import { Grid, Typography, Paper, Button } from "@mui/material";
+import { Grid, Button } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
 import { MeetingContext } from "../../context/MeetingContext";
-const queryString = require("query-string");
-const parsed = queryString.parse(window.location.search);
 
 const useStyles = makeStyles((theme) => ({
   gridContainer: {

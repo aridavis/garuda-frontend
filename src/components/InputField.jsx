@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import DatePicker from '@mui/lab/DatePicker';
+import DatePicker from "@mui/lab/DatePicker";
 import Input from "./Input";
 import Select from "./Select";
 
@@ -13,9 +13,9 @@ import {
   InputAdornment,
   InputLabel,
   OutlinedInput as MaterialInput,
-  TextField
+  TextField,
 } from "@mui/material";
-import { DataSaverOffTwoTone, Visibility, VisibilityOff } from "@mui/icons-material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import moment from "moment";
 import Autocomplete from "./Autocomplete";
 import MultipleAutocomplete from "./MultipleAutoComplete";
@@ -40,20 +40,8 @@ const InputField = (props) => {
     // eslint-disable-next-line
   }, []);
 
-  const handleInputChange = (value) => {
-    props.onChange(value);
-  };
-
   const handleSelectChange = (value) => {
     props.onChange(value);
-  };
-
-  const handleDateChange = (date) => {
-    if (date !== null) {
-      props.onChange(moment(date).format("YYYY-MM-DD"));
-    } else {
-      props.onChange(null);
-    }
   };
 
   const renderDatePicker = (data) => {
@@ -64,7 +52,7 @@ const InputField = (props) => {
         name={data.name}
         label={data.label}
         value={data.value}
-        onChange={value => {
+        onChange={(value) => {
           console.log("setting value to", value);
           props.setFieldValue(data.name, value);
         }}
@@ -82,7 +70,7 @@ const InputField = (props) => {
         name={data.name}
         label={data.label}
         value={data.value}
-        onChange={value => {
+        onChange={(value) => {
           console.log("setting value to", value);
           props.setFieldValue(data.name, value);
         }}
@@ -99,11 +87,11 @@ const InputField = (props) => {
         label={data.label}
         value={
           (data.value === null || data.value === undefined) &&
-            (data.type === "number" || data.type === "numeric")
+          (data.type === "number" || data.type === "numeric")
             ? "0"
             : data.value === null || data.value === undefined
-              ? ""
-              : data.value
+            ? ""
+            : data.value
         }
         multiline={data.type === "multiline"}
         onChange={data.onChange}
@@ -144,20 +132,18 @@ const InputField = (props) => {
         <Checkbox
           checked={data.value}
           onChange={data.onChange}
-          inputProps={{ 'aria-label': 'controlled' }}
+          inputProps={{ "aria-label": "controlled" }}
           sx={{
             color: "#3c1874",
-            '&.Mui-checked': {
+            "&.Mui-checked": {
               color: "#3c1874",
             },
           }}
         />
-        <p>
-          {data.label}
-        </p>
+        <p>{data.label}</p>
       </div>
-    )
-  }
+    );
+  };
 
   const renderSelect = (data) => {
     return (

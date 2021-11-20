@@ -1,4 +1,4 @@
-import SnackbarUtils from "./SnackBarUtils";
+import SnackbarUtils from "./SnackbarUtils";
 
 const Axios = require("axios");
 const client = Axios.create();
