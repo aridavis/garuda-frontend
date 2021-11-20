@@ -1,12 +1,12 @@
 class SnackbarUtils {
-  #snackBar = {
-    enqueueSnackbar: () => { },
-    closeSnackbar: () => { },
+  snackBar = {
+    enqueueSnackbar: (msg, finalOptions) => {},
+    closeSnackbar: (key) => {},
   };
 
   setSnackBar(enqueueSnackbar, closeSnackbar) {
-    this.#snackBar.enqueueSnackbar = enqueueSnackbar;
-    this.#snackBar.closeSnackbar = closeSnackbar;
+    this.snackBar.enqueueSnackbar = enqueueSnackbar;
+    this.snackBar.closeSnackbar = closeSnackbar;
   }
 
   success(msg, options = {}) {
@@ -27,10 +27,13 @@ class SnackbarUtils {
       variant: "default",
       ...options,
     };
-    return this.#snackBar.enqueueSnackbar(msg, { ...finalOptions });
+    return this.snackBar.enqueueSnackbar(msg, {
+      ...finalOptions,
+      autoHideDuration: 5000,
+    });
   }
   closeSnackbar(key) {
-    this.#snackBar.closeSnackbar(key);
+    this.snackBar.closeSnackbar(key);
   }
 }
 
