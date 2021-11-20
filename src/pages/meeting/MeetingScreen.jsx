@@ -44,7 +44,9 @@ export default function MeetingScreen() {
 
   useEffect(() => {
     socket.on("writeCode", (code, from) => {
-      if (from !== parsed.id) {
+      if (from.toString() !== parsed.id.toString()) {
+        console.log(from);
+        console.log(parsed.id);
         setCode(code);
       }
     });
@@ -227,6 +229,7 @@ export default function MeetingScreen() {
                       (res) => res.id.toString() === e.target.value.toString()
                     )[0].style
                   );
+                  setCode("");
                   socket.emit("writeCode", 1, "", parsed.id);
                 }}
               >
@@ -244,7 +247,7 @@ export default function MeetingScreen() {
                 value={code}
                 setValue={(val) => {
                   setCode(val);
-                  socket.emit("writeCode", 1, val, 1);
+                  socket.emit("writeCode", 1, val, parsed.id);
                 }}
                 width="100%"
                 height="100vh"

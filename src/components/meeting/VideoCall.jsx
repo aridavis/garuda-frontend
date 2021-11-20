@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from "react";
-import { Grid, Button } from "@mui/material";
+import React, { useContext, useEffect, useState } from "react";
+import { Grid, Button, TextField } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
 import { MeetingContext } from "../../context/MeetingContext";
@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const VideoCall = () => {
+  const [target, setTarget] = useState("");
   const {
     name,
     callAccepted,
@@ -89,9 +90,13 @@ const VideoCall = () => {
           <div className="w-full bg-gray-400 absolute">{me}</div>
         </Grid>
       )}
+      <TextField
+        value={target}
+        onChange={(e) => setTarget(e.currentTarget.value)}
+      />
       <Button
         onClick={() => {
-          callUser(me);
+          callUser(target);
         }}
       >
         join
