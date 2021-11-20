@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { TextField } from "@mui/material";
-import { numberToString, stringToNumber } from "../utils/NumberUtils";
-import { logDOM } from "@testing-library/react";
+import { numberToString } from "../utils/NumberUtils";
 
 class Input extends Component {
   render() {

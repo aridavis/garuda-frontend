@@ -8,6 +8,7 @@ export default function ChatBox({ socket }) {
 
   useEffect(() => {
     socket.emit("joinRoom", 1);
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -16,6 +17,7 @@ export default function ChatBox({ socket }) {
       temp.push(message);
       setChats([...temp]);
     });
+    // eslint-disable-next-line
   }, [socket]);
 
   const onSubmit = (e) => {

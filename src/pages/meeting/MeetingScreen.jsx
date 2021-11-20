@@ -54,6 +54,7 @@ export default function MeetingScreen() {
     socket.on("codeResult", (result) => {
       setResult(result);
     });
+    // eslint-disable-next-line
   }, [socket]);
 
   useEffect(() => {
@@ -76,7 +77,7 @@ export default function MeetingScreen() {
         {/* Logo area */}
         <div className="absolute inset-y-0 left-0 md:static md:flex-shrink-0">
           <a
-            href="#"
+            href="/"
             className="flex items-center justify-center h-16 w-16 bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-600 md:w-20"
           >
             <img
@@ -107,20 +108,20 @@ export default function MeetingScreen() {
           </div>
           <div className="ml-10 pr-4 flex-shrink-0 flex items-center space-x-10">
             <nav aria-label="Global" className="flex space-x-10">
-              <a href="#" className="text-sm font-medium text-gray-900">
+              <a href="/" className="text-sm font-medium text-gray-900">
                 Inboxes
               </a>
-              <a href="#" className="text-sm font-medium text-gray-900">
+              <a href="/" className="text-sm font-medium text-gray-900">
                 Reporting
               </a>
-              <a href="#" className="text-sm font-medium text-gray-900">
+              <a href="/" className="text-sm font-medium text-gray-900">
                 Settings
               </a>
             </nav>
             <div className="flex items-center space-x-8">
               <span className="inline-flex">
                 <a
-                  href="#"
+                  href="/"
                   className="-mx-1 bg-white p-1 rounded-full text-gray-400 hover:text-gray-500"
                 >
                   <span className="sr-only">View notifications</span>
@@ -158,7 +159,7 @@ export default function MeetingScreen() {
                           <Menu.Item>
                             {({ active }) => (
                               <a
-                                href="#"
+                                href="/"
                                 className={classNames(
                                   active ? "bg-gray-100" : "",
                                   "block px-4 py-2 text-sm text-gray-700"
@@ -171,7 +172,7 @@ export default function MeetingScreen() {
                           <Menu.Item>
                             {({ active }) => (
                               <a
-                                href="#"
+                                href="/"
                                 className={classNames(
                                   active ? "bg-gray-100" : "",
                                   "block px-4 py-2 text-sm text-gray-700"

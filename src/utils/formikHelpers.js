@@ -5,7 +5,7 @@ export const setFormikErrors = (errorObject, setErrorFunction) => {
   errors.map((item) => {
     let toReplace = item;
     if (item.split(".").length === 3) {
-      const [one, two, three] = item.split(".");
+      const three = item.split(".")[2];
       toReplace = three.replaceAll(/_/g, " ");
     }
     return setErrorFunction(

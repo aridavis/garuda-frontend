@@ -35,7 +35,6 @@ const useStyles = makeStyles((theme) => ({
 const VideoCall = () => {
   const [target, setTarget] = useState("");
   const {
-    name,
     callAccepted,
     myVideo,
     userVideo,
