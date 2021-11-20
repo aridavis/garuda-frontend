@@ -6,6 +6,7 @@ import { SnackbarProvider } from "notistack";
 import HomeScreen from "./pages/HomePage/HomeScreen";
 import "./App.css";
 import MeetingScreen from "./pages/meeting/MeetingScreen";
+import { MeetingContextProvider } from "./context/MeetingContext";
 
 export class App extends Component {
   render() {

@@ -1,13 +1,12 @@
 import React, { createContext, useState, useRef, useEffect } from "react";
 import { io } from "socket.io-client";
 import Peer from "simple-peer";
-import { Constant } from "../constants/Constant";
 
-const SocketContext = createContext();
+const MeetingContext = createContext();
 
-const socket = io(Constant.SOCKET_URL);
+const socket = io("http://localhost:5000");
 
-const ContextProvider = ({ children }) => {
+const MeetingContextProvider = ({ children }) => {
   const [callAccepted, setCallAccepted] = useState(false);
   const [callEnded, setCallEnded] = useState(false);
   const [stream, setStream] = useState();
@@ -87,7 +86,7 @@ const ContextProvider = ({ children }) => {
   };
 
   return (
-    <SocketContext.Provider
+    <MeetingContext.Provider
       value={{
         call,
         callAccepted,
@@ -104,8 +103,8 @@ const ContextProvider = ({ children }) => {
       }}
     >
       {children}
-    </SocketContext.Provider>
+    </MeetingContext.Provider>
   );
 };
 
-export { ContextProvider, SocketContext };
+export { MeetingContextProvider, MeetingContext };

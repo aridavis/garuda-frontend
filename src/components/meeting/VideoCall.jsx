@@ -1,70 +1,105 @@
-import React, { useContext } from "react";
-import { Grid, Typography, Paper, makeStyles } from "@material-ui/core";
+import React, { useContext, useEffect } from "react";
+import { Grid, Typography, Paper, Button } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 
-import { SocketContext } from "../Context";
+import { MeetingContext } from "../../context/MeetingContext";
+const queryString = require("query-string");
+const parsed = queryString.parse(window.location.search);
 
 const useStyles = makeStyles((theme) => ({
-  video: {
-    width: "550px",
-    [theme.breakpoints.down("xs")]: {
-      width: "300px",
-    },
-  },
   gridContainer: {
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    [theme.breakpoints.down("xs")]: {
-      flexDirection: "column",
-    },
+    height: "60%",
+    display: "block !important",
   },
   paper: {
     padding: "10px",
     border: "2px solid black",
-    margin: "10px",
+    width: "100%",
+    height: "100px",
+    maxHeight: "30%",
+  },
+  video: {
+    height: "100% !important",
+    width: "100%",
+    objectFit: "cover",
+  },
+
+  videoContainer: {
+    position: "relative",
+    height: "50%",
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "flex-end",
   },
 }));
 
 const VideoCall = () => {
-  const { name, callAccepted, myVideo, userVideo, callEnded, stream, call } =
-    useContext(SocketContext);
+  const {
+    name,
+    callAccepted,
+    myVideo,
+    userVideo,
+    callEnded,
+    stream,
+    call,
+    answerCall,
+    me,
+    callUser,
+  } = useContext(MeetingContext);
   const classes = useStyles();
+
+  useEffect(() => {}, []);
 
   return (
     <Grid container className={classes.gridContainer}>
-      {callAccepted && !callEnded && (
-        <Paper className={classes.paper}>
-          <Grid item xs={12} md={6}>
-            <Typography variant="h5" gutterBottom>
-              {call.name || "Name"}
-            </Typography>
-            <video
-              playsInline
-              ref={userVideo}
-              autoPlay
-              className={classes.video}
-            />
-          </Grid>
-        </Paper>
+      {callAccepted && !callEnded ? (
+        <Grid item xs={12} className={classes.videoContainer}>
+          <video
+            playsInline
+            ref={userVideo}
+            autoPlay
+            className={classes.video}
+          />
+        </Grid>
+      ) : (
+        <Grid
+          item
+          xs={12}
+          className={classes.videoContainer}
+          style={{ backgroundColor: "grey" }}
+        >
+          {call.isReceivingCall && !callAccepted && (
+            <div style={{ display: "flex", padding: "10px" }}>
+              <Button variant="contained" color="primary" onClick={answerCall}>
+                Answer
+              </Button>
+            </div>
+          )}
+        </Grid>
       )}
+
       {stream && (
-        <Paper className={classes.paper}>
-          <Grid item xs={12} md={6}>
-            <Typography variant="h5" gutterBottom>
-              {name || "Name"}
-            </Typography>
-            <video
-              playsInline
-              muted
-              ref={myVideo}
-              autoPlay
-              className={classes.video}
-            />
-          </Grid>
-        </Paper>
+        <Grid item xs={12} className={classes.videoContainer}>
+          <video
+            playsInline
+            muted
+            ref={myVideo}
+            autoPlay
+            className={classes.video}
+          />
+          <div className="w-full bg-gray-400 absolute">{me}</div>
+        </Grid>
       )}
+      <Button
+        onClick={() => {
+          callUser(me);
+        }}
+      >
+        join
+      </Button>
     </Grid>
   );
 };
 
-export default VideoPlayer;
+export default VideoCall;

@@ -24,12 +24,31 @@ io.on("connection", (socket) => {
     socket.broadcast.emit("callEnded");
   });
 
-  socket.on("callUser", ({ userToCall, signalData, from, name }) => {
-    io.to(userToCall).emit("callUser", { signal: signalData, from, name });
+  socket.on("callUser", ({ userToCall, signalData, from }) => {
+    io.to(userToCall).emit("callUser", { signal: signalData, from });
   });
 
   socket.on("answerCall", (data) => {
     io.to(data.to).emit("callAccepted", data.signal);
+  });
+
+  socket.on("sendChat", (roomId, message) => {
+    io.to(roomId).emit("chatSent", message);
+  });
+  socket.on("joinRoom", (roomId) => {
+    socket.join(roomId);
+  });
+
+  socket.on("writeCode", (roomId, code, from) => {
+    io.to(roomId).emit("writeCode", code, from);
+  });
+
+  socket.on("changeLanguage", (roomId, languageId, languageStyle) => {
+    io.to(roomId).emit("changeLanguage", languageId, languageStyle);
+  });
+
+  socket.on("codeResult", (roomId, status) => {
+    io.to(roomId).emit("codeResult", status);
   });
 });
 
