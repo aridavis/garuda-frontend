@@ -1,4 +1,4 @@
-import SnackbarUtils from "./SnackbarUtils";
+import SnackbarUtils from "./SnackBarUtils";
 
 const Axios = require("axios");
 const client = Axios.create();
@@ -47,7 +47,7 @@ client.interceptors.response.use(
   }
 );
 
-export class ApiClient {
+export default class ApiClient {
   static Get = (url, pathVariables, params) => {
     return client?.get(ApiClient.buildUrl(url, pathVariables), {
       params: params,
