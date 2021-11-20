@@ -1,5 +1,5 @@
 import { ApiPath } from "../constants/ApiPath";
-import { ApiClient } from "../utils/ApiClient";
+import ApiClient from "../utils/ApiClient";
 
 export class CodeController {
   static show = (id) => {

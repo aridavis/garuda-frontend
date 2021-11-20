@@ -1,8 +1,8 @@
 const app = require("express")();
-const server = require("http").createServer(app);
+const hackathonServer = require("http").createServer(app);
 const cors = require("cors");
 
-const io = require("socket.io")(server, {
+const io = require("socket.io")(hackathonServer, {
   cors: {
     origin: "*",
     methods: ["GET", "POST"],
@@ -52,4 +52,4 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+hackathonServer.listen(PORT, () => console.log(`Server is running on port ${PORT}`));

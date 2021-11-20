@@ -9,9 +9,6 @@ import VideoCall from "../../components/meeting/VideoCall";
 import ChatBox from "../../components/meeting/ChatBox";
 import { io } from "socket.io-client";
 import { Constant } from "../../constants/Constant";
-import VideoPlayer from "../../components/newmeeting/VideoPlayer";
-import Sidebar from "../../components/newmeeting/Sidebar";
-import Notifications from "../../components/newmeeting/Notifications";
 const queryString = require("query-string");
 const parsed = queryString.parse(window.location.search);
 

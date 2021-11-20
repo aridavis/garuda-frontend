@@ -7,9 +7,7 @@ import { MeetingContextProvider } from "./context/MeetingContext";
 
 ReactDOM.render(
   <React.StrictMode>
-    <MeetingContextProvider>
       <App />
-    </MeetingContextProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
