@@ -3,63 +3,50 @@ import InputField from "../../components/InputField";
 import { generateInputFieldProps } from "../../props/InputFieldProps";
 import { UserController } from "../../controllers/UserController";
 import SnackbarUtils from "../../utils/SnackbarUtils";
-import { setFormikErrors } from "../../utils/formikHelpers";
-import { useState } from "react";
-import ImageUploadField from "../../components/ImageUploadField";
 
 function SignInScreen() {
-  const [image, setImage] = useState(null);
-
   const inputs = [
     generateInputFieldProps(
       "first_name",
       "First Name",
-      "input your firstname here!",
       "text"
     ),
     generateInputFieldProps(
       "last_name",
       "Last Name",
-      "input your lastname here!",
       "text"
     ),
     generateInputFieldProps(
       "country",
       "Country",
-      "input your country here!",
       "text"
     ),
     generateInputFieldProps(
       "address",
       "Street Address",
-      "input your address here!",
       "text"
     ),
-    generateInputFieldProps("city", "City", "input your city here!", "text"),
-    generateInputFieldProps("state", "State", "input your state here!", "text"),
-    generateInputFieldProps("email", "Email", "input your email here!", "text"),
+    generateInputFieldProps("city", "City", "text"),
+    generateInputFieldProps("state", "State", "text"),
+    generateInputFieldProps("email", "Email", "text"),
     generateInputFieldProps(
       "password",
       "Password",
-      "input your password here!",
       "password"
     ),
     generateInputFieldProps(
       "dob",
       "Date Of Birth",
-      "input your dob here!",
       "date"
     ),
     generateInputFieldProps(
       "phone",
       "Phone Number",
-      "input your phone here!",
       "text"
     ),
     generateInputFieldProps(
       "image_url",
       "Profile Picture",
-      "input your profile picture here!",
       "image"
     ),
   ];
@@ -67,21 +54,11 @@ function SignInScreen() {
   const formik = useFormik({
     initialValues: {},
     onSubmit: (values, formikHelpers) => {
-      UserController.registerJobseeker(formik.values)
-        .then((res) => {
-          SnackbarUtils.success(
-            "Success registering user, please sign in again."
-          );
-        })
-        .catch((err) => {
-          try {
-            if (err.response.status === 400) {
-              setFormikErrors(err.response.data, formikHelpers.setFieldError);
-            }
-          } catch (err) {
-            console.log(err);
-          }
-        });
+      UserController.registerJobseeker(formik.values).then((res) => {
+        SnackbarUtils.success(
+          "Success registering user, please sign in again."
+        );
+      });
     },
   });
 
@@ -165,23 +142,13 @@ function SignInScreen() {
                         />
                       ) : (
                         <div className="col-span-2">
-                          <ImageUploadField
-                            error={Boolean(
-                              !formik.touched.image_url &&
-                                formik.errors.image_url
-                            )}
-                            helperText={
-                              !formik.touched.image_url &&
-                              formik.errors.image_url
-                            }
-                            label="Profile Picture"
-                            formikProps={formik.getFieldProps}
-                            onChange={(f) => {
-                              console.log(f);
-                              formik.setFieldValue("image_url", f);
-                              setImage(f);
-                            }}
-                            value={image}
+                          <InputField
+                            {...f}
+                            {...formik}
+                            value={formik.values[f.name]}
+                            onChange={formik.handleChange}
+                            setFieldValue={formik.setFieldValue}
+                            limit={1}
                           />
                         </div>
                       )
