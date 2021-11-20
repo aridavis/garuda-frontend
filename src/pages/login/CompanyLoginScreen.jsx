@@ -11,17 +11,15 @@ const cookie = require("react-cookies");
 
 function CompanyLoginScreen() {
   const inputs = [
-    generateInputFieldProps("email", "Email", "input your email here!", "text"),
+    generateInputFieldProps("email", "Email", "text"),
     generateInputFieldProps(
       "password",
       "Password",
-      "input your password here!",
       "password"
     ),
     generateInputFieldProps(
       "check",
       "Remember Me",
-      "input your password here!",
       "check"
     ),
   ];

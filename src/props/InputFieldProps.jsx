@@ -13,7 +13,6 @@ export const generateOptionProps = (text, value) => {
 export const generateInputFieldProps = (
   name,
   label,
-  placeholder,
   type,
   options,
   async,
@@ -24,7 +23,6 @@ export const generateInputFieldProps = (
 ) => ({
   name: name,
   label: label,
-  placeholder: placeholder,
   type: type,
   options: options,
   async: async,
