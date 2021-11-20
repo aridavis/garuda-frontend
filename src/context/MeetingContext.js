@@ -1,10 +1,11 @@
 import React, { createContext, useState, useRef, useEffect } from "react";
 import { io } from "socket.io-client";
 import Peer from "simple-peer";
+import { Constant } from "../constants/Constant";
 
 const MeetingContext = createContext();
 
-const socket = io("http://localhost:5000");
+const socket = io(Constant.SOCKET_URL);
 
 const MeetingContextProvider = ({ children }) => {
   const [callAccepted, setCallAccepted] = useState(false);
