@@ -1,45 +1,63 @@
-import { ClipboardCheckIcon, DocumentSearchIcon, LocationMarkerIcon } from '@heroicons/react/outline';
-import React, { useState } from 'react';
-import JobApplyDialog from './JobApplyDialog';
-import JobDetailDialog from './JobDetailDialog';
+import {
+  ClipboardCheckIcon,
+  DocumentSearchIcon,
+  LocationMarkerIcon,
+} from "@heroicons/react/outline";
+import React, { useState } from "react";
+import JobApplyDialog from "./JobApplyDialog";
+import JobDetailDialog from "./JobDetailDialog";
 
 function UserJobCardItem(props) {
-  const [isDetailOpen, setIsDetailOpen] = useState(false)
-  const [isApplyOpen, setIsApplyOpen] = useState(false)
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [isApplyOpen, setIsApplyOpen] = useState(false);
 
   return (
-    <li key={props.job.name + props.index} className="col-span-1 bg-white rounded-lg shadow divide-y divide-gray-200">
+    <li
+      key={props.job.name + props.index}
+      className="col-span-1 bg-white rounded-lg shadow divide-y divide-gray-200"
+    >
       <JobDetailDialog
         job={props.job}
         isOpen={isDetailOpen}
         closeDialog={() => {
-          setIsDetailOpen(false)
+          setIsDetailOpen(false);
         }}
       />
       <JobApplyDialog
         job={props.job}
         isOpen={isApplyOpen}
         closeDialog={() => {
-          setIsApplyOpen(false)
+          setIsApplyOpen(false);
         }}
       />
       <div className="w-full flex items-center justify-between p-6 space-x-6">
         <div className="flex-1 truncate">
           <div className="w-20 h-20 bg-white rounded-full flex m-auto border-primary border-2 overflow-hidden">
-            <img className="object-contain m-auto" src={props.job.image} alt="" />
+            <img
+              className="object-contain m-auto"
+              src={props.job.company.image_url}
+              alt=""
+            />
           </div>
           <div className="flex items-center space-x-3">
-            <h3 className="text-lg text-primary font-medium truncate text-center">{props.job.company}</h3>
+            <h3 className="text-lg text-primary font-medium truncate text-center">
+              {props.job.company.name}
+            </h3>
           </div>
           <div className="flex items-center space-x-3">
-            <h3 className="text-gray-900 text-sm font-medium truncate">{props.job.name}</h3>
+            <h3 className="text-gray-900 text-sm font-medium truncate">
+              {props.job.name}
+            </h3>
             <span className="flex-shrink-0 inline-block px-2 py-0.5 text-green-800 text-xs font-medium bg-green-100 rounded-full">
               {props.job.category}
             </span>
           </div>
           <p className="mt-2 flex items-center text-sm text-gray-500">
-            <LocationMarkerIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />
-            {props.job.country}
+            <LocationMarkerIcon
+              className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
+              aria-hidden="true"
+            />
+            {props.job.city}, {props.job.country}
           </p>
         </div>
       </div>
@@ -51,7 +69,10 @@ function UserJobCardItem(props) {
               setIsDetailOpen(true);
             }}
           >
-            <DocumentSearchIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
+            <DocumentSearchIcon
+              className="w-5 h-5 text-gray-400"
+              aria-hidden="true"
+            />
             <span className="ml-3">View Details</span>
           </button>
           <button
@@ -60,7 +81,10 @@ function UserJobCardItem(props) {
               setIsApplyOpen(true);
             }}
           >
-            <ClipboardCheckIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
+            <ClipboardCheckIcon
+              className="w-5 h-5 text-gray-400"
+              aria-hidden="true"
+            />
             <span className="ml-3">Apply</span>
           </button>
         </div>

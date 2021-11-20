@@ -13,6 +13,7 @@ import SignInScreen from "./pages/signin/SignInScreen";
 import SnackbarUtils from "./utils/SnackbarUtils";
 import { useSnackbar } from "notistack";
 import JobScreen from "./pages/job/JobScreen";
+import ApplicationScreen from "./pages/application/ApplicationScreen";
 
 const App = () => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -42,7 +43,11 @@ const App = () => {
                 }
               />
               <Route exact path="/job" element={<JobScreen />} />
-              <Route exact path="/application" element={<JobScreen />} />
+              <Route
+                exact
+                path="/application"
+                element={<ApplicationScreen />}
+              />
               <Route exact path="/workshop" element={<JobScreen />} />
             </Routes>
           </Router>

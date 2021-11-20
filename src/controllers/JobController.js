@@ -1,12 +1,12 @@
 import ApiClient from "../utils/ApiClient";
 import { ApiPath } from "../constants/ApiPath";
 
-export class AuthController {
-  static login = (body) => {
-    return ApiClient.Post(ApiPath.LOGIN, [], body);
+export class JobController {
+  static getJobList = (body) => {
+    return ApiClient.Post(ApiPath.JOB_LIST, [], body);
   };
 
-  static getCurrentUser = () => {
-    return ApiClient.Get(ApiPath.CURRENT_USER, [], {});
+  static createJob = (body) => {
+    return ApiClient.Post(ApiPath.CREATE_JOB, [], body);
   };
 }

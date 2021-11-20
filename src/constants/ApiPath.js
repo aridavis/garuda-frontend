@@ -11,4 +11,10 @@ export const ApiPath = {
   COMPANY_LOGIN: Constant.API_PATH + "/auth/co/login",
 
   REGISTER_JOBSEEKER: Constant.API_PATH + "/users/jobseeker",
+
+  JOB_LIST: Constant.API_PATH + "/jobs/filter",
+  CREATE_JOB: Constant.API_PATH + "/jobs/store",
+
+  APPLY_JOB: Constant.API_PATH + "/applications/store",
+  GET_APPLICATION_LIST: Constant.API_PATH + "/applications/filter",
 };
