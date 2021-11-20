@@ -16,8 +16,10 @@ module.exports = {
       transparent: 'transparent',
       current: 'currentColor',
       primary: '#3c1874',
-      secondary: '#93432',
+      secondary: '#932432',
       third: '#DE354C',
+      fourth: '#283747',
+      customwhite: '#F3F3F3',
       customgray: '#F5F5F5',
       darkgray: '#333333',
       black: colors.black,
@@ -971,5 +973,7 @@ module.exports = {
     wordBreak: ['responsive'],
     zIndex: ['responsive', 'focus-within', 'focus'],
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/forms'),
+  ],
 }
