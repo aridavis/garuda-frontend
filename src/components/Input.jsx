@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { TextField } from "@mui/material";
 import { numberToString, stringToNumber } from "../utils/NumberUtils";
+import { logDOM } from "@testing-library/react";
 
 class Input extends Component {
   render() {
@@ -12,8 +13,16 @@ class Input extends Component {
           this.props.type === "email"
             ? "email"
             : this.props.type === "password"
-              ? "password"
-              : "text"
+            ? "password"
+            : "text"
+        }
+        error={Boolean(
+          this.props.touched[this.props.name] &&
+            this.props.errors[this.props.name]
+        )}
+        helperText={
+          this.props.touched[this.props.name] &&
+          this.props.errors[this.props.name]
         }
         fullWidth
         name={this.props.name}
@@ -21,14 +30,12 @@ class Input extends Component {
           this.props.value === null || this.props.value === undefined
             ? ""
             : this.props.type === "number"
-              ? numberToString(parseInt(this.props.value))
-              : this.props.value
+            ? numberToString(parseInt(this.props.value))
+            : this.props.value
         }
         label={this.props.label}
         placeholder={this.props.label}
-        onChange={
-          this.props.onChange
-        }
+        onChange={this.props.onChange}
       />
     );
   }

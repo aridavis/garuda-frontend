@@ -2,6 +2,11 @@ import { useFormik } from "formik";
 import logo from "../../assets/logo.png";
 import InputField from "../../components/InputField";
 import { generateInputFieldProps } from "../../props/InputFieldProps";
+import { AuthController } from "../../controllers/AuthController";
+import { Constant } from "../../constants/Constant";
+import { setFormikErrors } from "../../utils/formikHelpers";
+
+const cookie = require("react-cookies");
 
 function LoginScreen() {
   const inputs = [
@@ -22,8 +27,30 @@ function LoginScreen() {
 
   const formik = useFormik({
     initialValues: {},
-    onSubmit: (values) => {
+    onSubmit: (values, formikHelpers) => {
       console.log(values);
+      AuthController.login({
+        email: values.email,
+        password: values.password,
+        remember_me: values.check !== undefined && values.check.length > 0,
+      })
+        .then((res) => {
+          console.log(res.data);
+          cookie.save(Constant.ACCESS_TOKEN, res.data.access_token, {
+            path: "/",
+            expires: new Date(res.data.expires_at),
+          });
+          window.location.href = "/";
+        })
+        .catch((err) => {
+          try {
+            if (err.response.status === 400) {
+              setFormikErrors(err.response.data, formikHelpers.setFieldError);
+            }
+          } catch (err) {
+            console.log(err);
+          }
+        });
     },
   });
 
@@ -41,15 +68,11 @@ function LoginScreen() {
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <form
-            onSubmit={formik.handleSubmit}
-            action="#"
-            method="POST"
-            className="space-y-6"
-          >
+          <form onSubmit={formik.handleSubmit} className="space-y-6">
             {inputs.map((f) => (
               <InputField
                 {...f}
+                {...formik}
                 value={formik.values[f.name]}
                 onChange={formik.handleChange}
               />

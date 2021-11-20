@@ -9,6 +9,7 @@ import { DropzoneArea } from "material-ui-dropzone";
 import {
   Checkbox,
   FormControl,
+  FormHelperText,
   IconButton,
   InputAdornment,
   InputLabel,
@@ -83,6 +84,7 @@ const InputField = (props) => {
   const renderTextField = (data) => {
     return (
       <Input
+        {...data}
         name={data.name}
         label={data.label}
         value={
@@ -106,9 +108,11 @@ const InputField = (props) => {
         <InputLabel>{data.label}</InputLabel>
         <MaterialInput
           autoComplete="false"
+          name={data.name}
           type={showPassword ? "text" : "password"}
           value={data.value}
           onChange={props.onChange}
+          error={Boolean(data.touched[data.name] && data.errors[data.name])}
           endAdornment={
             <InputAdornment position="end">
               <IconButton
@@ -122,6 +126,11 @@ const InputField = (props) => {
             </InputAdornment>
           }
         />
+        {Boolean(data.touched[data.name] && data.errors[data.name]) && (
+          <FormHelperText error>
+            {data.touched[data.name] && data.errors[data.name]}
+          </FormHelperText>
+        )}
       </FormControl>
     );
   };
@@ -131,6 +140,7 @@ const InputField = (props) => {
       <div className="flex items-center">
         <Checkbox
           checked={data.value}
+          name={data.name}
           onChange={data.onChange}
           inputProps={{ "aria-label": "controlled" }}
           sx={{

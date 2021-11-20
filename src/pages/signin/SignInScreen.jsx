@@ -1,17 +1,19 @@
 import { useFormik } from "formik";
 import InputField from "../../components/InputField";
 import { generateInputFieldProps } from "../../props/InputFieldProps";
+import { UserController } from "../../controllers/UserController";
+import SnackbarUtils from "../../utils/SnackbarUtils";
 
 function SignInScreen() {
   const inputs = [
     generateInputFieldProps(
-      "firstname",
+      "first_name",
       "First Name",
       "input your firstname here!",
       "text"
     ),
     generateInputFieldProps(
-      "lastname",
+      "last_name",
       "Last Name",
       "input your lastname here!",
       "text"
@@ -50,7 +52,7 @@ function SignInScreen() {
       "text"
     ),
     generateInputFieldProps(
-      "picture",
+      "image_url",
       "Profile Picture",
       "input your profile picture here!",
       "image"
@@ -59,8 +61,12 @@ function SignInScreen() {
 
   const formik = useFormik({
     initialValues: {},
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: (values, formikHelpers) => {
+      UserController.registerJobseeker(formik.values).then((res) => {
+        SnackbarUtils.success(
+          "Success registering user, please sign in again."
+        );
+      });
     },
   });
 
@@ -131,14 +137,13 @@ function SignInScreen() {
                 <div className="py-10 px-6 sm:px-10 xl:p-12">
                   <form
                     onSubmit={formik.handleSubmit}
-                    action="#"
-                    method="POST"
                     className="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8"
                   >
                     {inputs.map((f) =>
                       f.type !== "image" ? (
                         <InputField
                           {...f}
+                          {...formik}
                           value={formik.values[f.name]}
                           onChange={formik.handleChange}
                           setFieldValue={formik.setFieldValue}
@@ -147,6 +152,7 @@ function SignInScreen() {
                         <div className="col-span-2">
                           <InputField
                             {...f}
+                            {...formik}
                             value={formik.values[f.name]}
                             onChange={formik.handleChange}
                             setFieldValue={formik.setFieldValue}
