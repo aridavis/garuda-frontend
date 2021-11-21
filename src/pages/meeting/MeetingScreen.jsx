@@ -11,13 +11,11 @@ import { MeetingController } from "../../controllers/MeetingController";
 function MeetingScreen(props) {
   const { user } = useContext(UserContext);
   const { id } = useParams();
-  const [meetingId, setmeetingId] = useState("");
   const [meetingType, setmeetingType] = useState(0);
   const [meetingSocketId, setMeetingSocketId] = useState(null);
 
   useEffect(() => {
     if (id !== null && id !== undefined) {
-      setmeetingId(id);
       MeetingController.getMeetingDetail(id).then((res) => {
         setmeetingType(res.data.content.meeting_type_id);
         setMeetingSocketId(res.data.content.socket_id);
