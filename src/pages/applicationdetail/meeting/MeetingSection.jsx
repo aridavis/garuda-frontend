@@ -5,7 +5,7 @@ import MeetingUserSection from "./MeetingUserSection";
 
 const MeetingSection = (props) => {
   const { user } = useContext(UserContext);
-
+  
   return (
     <div>
       {user !== null && user.role_id === 1 ? (
