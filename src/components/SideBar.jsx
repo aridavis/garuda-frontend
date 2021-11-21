@@ -8,9 +8,11 @@ import {
   XIcon,
 } from '@heroicons/react/outline'
 import { useLocation } from 'react-router'
+import Logo from "../assets/logo.png"
 
 const navigation = [
   { name: 'Jobs', href: '/job', icon: UsersIcon },
+  { name: 'Application Detail', href: '/application-detail', show: false},
   { name: 'Application', href: '/application', icon: ClipboardIcon },
   { name: 'Calendar', href: '/calendar', icon: CalendarIcon },
 ]
@@ -23,10 +25,10 @@ function SideBar(props) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   const location = useLocation();
-  console.log(location.pathname);
 
   const getTitle = () => {
-    return navigation.find((n) => n.href === location.pathname).name
+    var path = navigation.find((n) => location.pathname.startsWith(n.href))
+    return path ? path.name : ""
   }
 
   return (
@@ -83,12 +85,13 @@ function SideBar(props) {
                 <div className="flex-shrink-0 flex items-center px-4">
                   <img
                     className="h-8 w-auto"
-                    src="/img/logos/workflow-logo-indigo-500-mark-white-text.svg"
-                    alt="Workflow"
+                    src={Logo}
+                    alt="Logo"
                   />
                 </div>
                 <nav className="mt-5 px-2 space-y-1">
                   {navigation.map((item) => (
+                    item.show !== false &&
                     <a
                       key={item.name}
                       href={item.href}
@@ -141,12 +144,13 @@ function SideBar(props) {
               <div className="flex items-center flex-shrink-0 px-4">
                 <img
                   className="h-8 w-auto"
-                  src="/img/logos/workflow-logo-indigo-500-mark-white-text.svg"
-                  alt="Workflow"
+                  src={Logo}
+                  alt="Logo"
                 />
               </div>
               <nav className="mt-5 flex-1 px-2 bg-gray-800 space-y-1">
                 {navigation.map((item) => (
+                  item.show !== false &&
                   <a
                     key={item.name}
                     href={item.href}
@@ -198,8 +202,8 @@ function SideBar(props) {
           </button>
         </div>
         <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none">
-          <div className="py-6 md:h-screen flex flex-col">
-            <div className="hidden md:block max-w-7xl mr-auto px-4 sm:px-6 lg:px-8">
+          <div className="py-6 md:min-h-screen flex flex-col">
+            <div className="md max-w-7xl mr-auto px-4 sm:px-6 lg:px-8">
               <h1 className="text-2xl font-semibold text-gray-900">{getTitle()}</h1>
             </div>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 h-full">

@@ -4,19 +4,6 @@ import { useEffect, useState } from "react";
 import { JobController } from "../../controllers/JobController";
 import { ApplicationController } from "../../controllers/ApplicationController";
 
-const people = [
-  {
-    name: "Jane Cooper",
-    title: "Regional Paradigm Technician",
-    department: "Optimization",
-    role: "Admin",
-    email: "jane.cooper@example.com",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-  // More people...
-];
-
 export default function ApplicationScreen() {
   const [applications, setApplications] = useState([]);
 
@@ -119,10 +106,10 @@ export default function ApplicationScreen() {
 
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <a
-                          href="#"
+                          href={"/application-detail/"+app.id}
                           className="text-indigo-600 hover:text-indigo-900"
                         >
-                          Edit
+                          View Progress
                         </a>
                       </td>
                     </tr>
