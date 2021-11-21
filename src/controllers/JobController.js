@@ -6,6 +6,10 @@ export class JobController {
     return ApiClient.Post(ApiPath.JOB_LIST, [], body);
   };
 
+  static getCompanyJobList = (body) => {
+    return ApiClient.Post(ApiPath.COMPANY_JOB_LIST, [], body);
+  };
+
   static createJob = (body) => {
     return ApiClient.Post(ApiPath.CREATE_JOB, [], body);
   };

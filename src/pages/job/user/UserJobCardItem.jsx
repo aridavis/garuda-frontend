@@ -14,7 +14,7 @@ function UserJobCardItem(props) {
   return (
     <li
       key={props.job.name + props.index}
-      className="col-span-1 bg-white rounded-lg shadow divide-y divide-gray-200"
+      className="col-span-1 bg-white rounded-lg shadow divide-y divide-gray-200 flex-col flex justify-between"
     >
       <JobDetailDialog
         job={props.job}
@@ -31,7 +31,7 @@ function UserJobCardItem(props) {
         }}
       />
       <div className="w-full flex items-center justify-between p-6 space-x-6">
-        <div className="flex-1 truncate">
+        <div className="flex-1">
           <div className="w-20 h-20 bg-white rounded-full flex m-auto border-primary border-2 overflow-hidden">
             <img
               className="object-contain m-auto"
@@ -40,18 +40,22 @@ function UserJobCardItem(props) {
             />
           </div>
           <div className="flex items-center space-x-3">
-            <h3 className="text-lg text-primary font-medium truncate text-center">
+            <h3 className="text-lg text-primary font-medium text-center line-clamp-1">
               {props.job.company.name}
             </h3>
           </div>
-          <div className="flex items-center space-x-3">
-            <h3 className="text-gray-900 text-sm font-medium truncate">
+          <div className="space-x-3">
+            <h3 className="text-gray-900 text-sm font-medium line-clamp-2">
               {props.job.name}
             </h3>
-            <span className="flex-shrink-0 inline-block px-2 py-0.5 text-green-800 text-xs font-medium bg-green-100 rounded-full">
+            <p
+              className="flex-shrink-0 inline-block px-2 py-0.5 text-green-800 text-xs font-medium bg-green-100 rounded-full"
+              style={{ marginLeft: "0" }}
+            >
               {props.job.category}
-            </span>
+            </p>
           </div>
+
           <p className="mt-2 flex items-center text-sm text-gray-500">
             <LocationMarkerIcon
               className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"

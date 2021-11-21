@@ -3,7 +3,6 @@ import { Dialog, Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
 import JobApplyDialog from "./JobApplyDialog";
 import { numberToString } from "../../../utils/NumberUtils";
-import { Text } from "html-react-parser";
 
 function JobDetailDialog(props) {
   const [isApplyOpen, setIsApplyOpen] = useState(false);

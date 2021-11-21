@@ -18,7 +18,6 @@ function UserJobScreen(props) {
       },
     }).then((res) => {
       setJobs(res.data.contents);
-      console.log(res.data.contents);
     });
   }, []);
 

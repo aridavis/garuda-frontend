@@ -14,6 +14,7 @@ import SnackbarUtils from "./utils/SnackbarUtils";
 import { useSnackbar } from "notistack";
 import JobScreen from "./pages/job/JobScreen";
 import ApplicationScreen from "./pages/application/ApplicationScreen";
+import QuestionContainer from "./pages/basictest/QuestionContainer";
 
 const App = () => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -49,6 +50,11 @@ const App = () => {
                 element={<ApplicationScreen />}
               />
               <Route exact path="/workshop" element={<JobScreen />} />
+              <Route
+                exact
+                path="/aptitude-test"
+                element={<QuestionContainer />}
+              />
             </Routes>
           </Router>
         </div>
