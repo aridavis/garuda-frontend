@@ -1,4 +1,4 @@
-import { Grid, TextField } from "@mui/material";
+import { div, TextField } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 
 export default function ChatBox({ socket }) {
@@ -33,10 +33,9 @@ export default function ChatBox({ socket }) {
   useEffect(scrollToBottom, [chats]);
 
   return (
-    <Grid container style={{ height: "40%" }}>
-      <Grid
-        item
-        xs={12}
+    <div className="flex flex-col h-full">
+      <div
+      className="flex-1"
         style={{
           height: "calc(100% - 60px)",
           minHeight: "calc(100% - 60px)",
@@ -47,8 +46,8 @@ export default function ChatBox({ socket }) {
           <p>{res}</p>
         ))}
         <div ref={messagesEndRef} />
-      </Grid>
-      <Grid item xs={12}>
+      </div>
+      <div item xs={12}>
         <form onSubmit={onSubmit}>
           <TextField
             fullWidth
@@ -58,7 +57,7 @@ export default function ChatBox({ socket }) {
             }}
           />
         </form>
-      </Grid>
-    </Grid>
+      </div>
+    </div>
   );
 }
