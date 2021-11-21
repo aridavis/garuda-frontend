@@ -8,10 +8,16 @@ const MeetingSection = (props) => {
 
   return (
     <div>
-      {user !== null && user.role_id === 1 ? (
-        <MeetingUserSection step={props.step} />
+      {props.step !== undefined && user !== null && user.role_id === 1 ? (
+        <MeetingUserSection
+          step={props.step}
+          applicationProcessId={props.step.step.id}
+        />
       ) : (
-        <MeetingCompanySection step={props.step} />
+        <MeetingCompanySection
+          step={props.step}
+          applicationProcessId={props.step.step.id}
+        />
       )}
     </div>
   );

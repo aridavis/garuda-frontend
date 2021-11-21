@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router';
-import { UserContext } from '../../context/UserContext';
-import { MeetingController } from '../../controllers/MeetingController';
-import DefaultMeetingSection from './DefaultMeetingSection';
-import LiveCodeMeetingSection from './LiveCodeMeetingSection';
-import UserWaitingRoomScreen from './UserWaitingRoomScreen';
+import React, { useContext, useEffect, useState } from "react";
+import { useParams } from "react-router";
+import { UserContext } from "../../context/UserContext";
+import { MeetingController } from "../../controllers/MeetingController";
+import DefaultMeetingSection from "./DefaultMeetingSection";
+import LiveCodeMeetingSection from "./LiveCodeMeetingSection";
+import UserWaitingRoomScreen from "./UserWaitingRoomScreen";
 
 function MeetingScreen(props) {
   const { user } = useContext(UserContext);
@@ -21,12 +21,14 @@ function MeetingScreen(props) {
     }
   }, [id]);
 
-  return (
-    meetingSocketId === "" && (user === null || user.role_id === 1) ?
-      (<UserWaitingRoomScreen />) :
-      meetingType === "liveCode" ?
-        (<LiveCodeMeetingSection />) :
-        (<DefaultMeetingSection />)
+  return user === null ? (
+    <UserWaitingRoomScreen />
+  ) : meetingSocketId === "" && (user === null || user.role_id === 1) ? (
+    <UserWaitingRoomScreen />
+  ) : meetingType === 2 ? (
+    <LiveCodeMeetingSection />
+  ) : (
+    <DefaultMeetingSection />
   );
 }
 

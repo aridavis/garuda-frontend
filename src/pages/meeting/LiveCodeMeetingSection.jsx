@@ -11,13 +11,12 @@ import SnackbarUtils from "../../utils/SnackbarUtils";
 import { UserContext } from "../../context/UserContext";
 import { MeetingContext } from "../../context/MeetingContext";
 import { MeetingController } from "../../controllers/MeetingController";
-
+import styles from "./style.module.css";
 const languages = require("../../json/ProgrammingLanguages.json");
 
 const socket = io(Constant.SOCKET_URL);
 
 function LiveCodeMeetingSection(props) {
-  const { user } = useContext(UserContext);
   const { roomId, me, updateVideo } = useContext(MeetingContext);
   const [question, setQuestion] = useState({});
   const [questionList, setQuestionList] = useState([]);
@@ -31,6 +30,10 @@ function LiveCodeMeetingSection(props) {
   );
 
   const [code, setCode] = useState("");
+
+  const [chats, setChats] = useState([]);
+
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     updateVideo();
@@ -63,6 +66,12 @@ function LiveCodeMeetingSection(props) {
     socket.on("removeCodeQuestion", (id) => {
       setQuestion({});
       setCode("");
+    });
+
+    socket.on("chatSent", (message) => {
+      let temp = chats;
+      temp.push(message);
+      setChats([...temp]);
     });
     // eslint-disable-next-line
   }, [socket]);
@@ -98,7 +107,7 @@ function LiveCodeMeetingSection(props) {
               <VideoCall socket={socket} isLiveCode={true} />
             </div>
             <div className={`${isChatOpen ? "" : "hidden"} h-screen`}>
-              <ChatBox socket={socket} />
+              <ChatBox socket={socket} chats={chats} />
             </div>
           </section>
 
@@ -113,6 +122,7 @@ function LiveCodeMeetingSection(props) {
                 value={selectedLanguage}
                 onChange={(e) => {
                   setSelectedLanguage(e.target.value);
+
                   setselectedLanguageStyle(
                     languages.filter(
                       (res) => res.id.toString() === e.target.value.toString()
@@ -181,9 +191,8 @@ function LiveCodeMeetingSection(props) {
                   </button>
                 </>
               )}
-              {user !== null && user.id === 1 && (
+              {user !== null && user.role_id === 1 && (
                 <div className="w-full py-3 flex">
-                  <span>{result}</span>
                   <button
                     type="button"
                     className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -192,6 +201,15 @@ function LiveCodeMeetingSection(props) {
                     Submit
                   </button>
                 </div>
+              )}
+              {result !== "Accepted" ? (
+                <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                  {result}
+                </span>
+              ) : (
+                <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                  {result}
+                </span>
               )}
             </div>
           </aside>

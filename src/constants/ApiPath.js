@@ -13,7 +13,7 @@ export const ApiPath = {
 
   JOB_LIST: Constant.API_PATH + "/jobs/filter",
 
-  CREATE_JOB: Constant.API_PATH + "/jobs/store",
+  CREATE_JOB: Constant.API_PATH + "/co/jobs/store",
 
   APPLY_JOB: Constant.API_PATH + "/applications/store",
   GET_APPLICATION_LIST: Constant.API_PATH + "/applications/filter",

@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { generateInputFieldProps } from "../../../props/InputFieldProps";
 import { useFormik } from "formik";
@@ -8,6 +8,8 @@ import { JobController } from "../../../controllers/JobController";
 import SnackbarUtils from "../../../utils/SnackbarUtils";
 
 function CreateJobDialog(props) {
+  const [count, setCount] = useState(0);
+
   const inputs = [
     generateInputFieldProps("name", "Name", "text"),
     generateInputFieldProps("description", "Description", "multiline"),
@@ -30,20 +32,18 @@ function CreateJobDialog(props) {
       jobStep: [],
     },
     onSubmit: (values, formikHelpers) => {
-      JobController.createJob(values)
-        .then((res) => {
-          SnackbarUtils.success("Success creating job");
-          props.closeDialog();
-        })
-        .catch((err) => {
-          SnackbarUtils.error("There is an error");
-        });
+      JobController.createJob(values).then((res) => {
+        SnackbarUtils.success("Success creating job");
+        props.closeDialog();
+        window.location.reload();
+      });
     },
   });
 
-  const handleAddStep = () => {
+  const handleAddStep = (e) => {
     const steps = formik.values.jobStep;
     steps.push(1);
+    setCount(count + 1);
   };
 
   const handleRemoveStep = (idx) => {
@@ -53,6 +53,7 @@ function CreateJobDialog(props) {
       ...formik.values,
       jobStep,
     });
+    setCount(count + 1);
   };
 
   const handleChangeStep = (value, idx) => {
@@ -63,6 +64,8 @@ function CreateJobDialog(props) {
       jobStep,
     });
   };
+
+  useEffect(() => {}, [formik.values.jobStep]);
 
   return (
     <Transition.Root show={props.isOpen} as={Fragment}>
@@ -121,9 +124,11 @@ function CreateJobDialog(props) {
                     Add application process
                   </div>
                   <button
-                    type="submit"
+                    type="button"
                     className=" flex justify-center p-1 border border-transparent rounded-full shadow-sm text-sm font-medium text-white bg-fourth hover:bg-fourth focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fourth"
-                    onClick={handleAddStep}
+                    onClick={() => {
+                      handleAddStep();
+                    }}
                   >
                     <PlusIcon
                       className="text-white h-4 w-4"
@@ -141,7 +146,7 @@ function CreateJobDialog(props) {
                         Step{" " + (index + 1)}
                       </label>
                       <button
-                        type="submit"
+                        type="button"
                         className=" flex justify-center p-1 border border-transparent rounded-full shadow-sm text-sm font-medium text-white bg-third hover:bg-third focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-third"
                         onClick={() => {
                           handleRemoveStep(index);

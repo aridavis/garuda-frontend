@@ -36,7 +36,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const VideoCall = (props) => {
-  console.log(props);
   const [target, setTarget] = useState("");
   const {
     callAccepted,
@@ -87,9 +86,11 @@ const VideoCall = (props) => {
             className={classes.video}
           />
           <div className="w-full bg-gray-400 absolute">
-            {meetingData.process.application.user.first_name +
+            {(meetingData.process !== undefined &&
+              meetingData.process.application.user.first_name) +
               " " +
-              meetingData.process.application.user.last_name}
+              (meetingData.process !== undefined &&
+                meetingData.process.application.user.last_name)}
           </div>
         </div>
       ) : (
