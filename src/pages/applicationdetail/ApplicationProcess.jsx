@@ -73,13 +73,13 @@ function ApplicationProcess({steps}) {
         </ol>
       </nav>
       {
-        selectedStep.step.type === '1' ?
+        selectedStep.step.job_step.step_id === 1 ?
           (<CVReviewSection />) :
-          selectedStep.step.type === '2' ?
+          selectedStep.step.job_step.step_id === 2 ?
             (<ApplicationTestSection />) :
-            selectedStep.step.type === '3' ?
+            selectedStep.step.job_step.step_id === 3 ?
               (<ApplicationHRInterview />) :
-              selectedStep.step.type === '4' ?
+              selectedStep.step.job_step.step_id === 4 ?
                 (<ApplicationUserCodingInterview />) :
                 (<ApplicationUserCodingInterview />)
       }
