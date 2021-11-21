@@ -8,9 +8,11 @@ import {
   XIcon,
 } from "@heroicons/react/outline";
 import { useLocation } from "react-router";
+import Logo from "../assets/logo.png";
 
 const navigation = [
   { name: "Jobs", href: "/job", icon: UsersIcon },
+  { name: "Application Detail", href: "/application-detail", show: false },
   { name: "Application", href: "/application", icon: ClipboardIcon },
   { name: "Calendar", href: "/calendar", icon: CalendarIcon },
 ];
@@ -23,10 +25,10 @@ function SideBar(props) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const location = useLocation();
-  console.log(location.pathname);
 
   const getTitle = () => {
-    return navigation.find((n) => n.href === location.pathname).name;
+    var path = navigation.find((n) => location.pathname.startsWith(n.href));
+    return path ? path.name : "";
   };
 
   return (
@@ -81,36 +83,35 @@ function SideBar(props) {
               </Transition.Child>
               <div className="flex-1 h-0 pt-5 pb-4 overflow-y-auto">
                 <div className="flex-shrink-0 flex items-center px-4">
-                  <img
-                    className="h-8 w-auto"
-                    src="/img/logos/workflow-logo-indigo-500-mark-white-text.svg"
-                    alt="Workflow"
-                  />
+                  <img className="h-8 w-auto" src={Logo} alt="Logo" />
                 </div>
                 <nav className="mt-5 px-2 space-y-1">
-                  {navigation.map((item) => (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      className={classNames(
-                        item.href === location.pathname
-                          ? "bg-gray-900 text-white"
-                          : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                        "group flex items-center px-2 py-2 text-base font-medium rounded-md"
-                      )}
-                    >
-                      <item.icon
-                        className={classNames(
-                          item.href === location.pathname
-                            ? "text-gray-300"
-                            : "text-gray-400 group-hover:text-gray-300",
-                          "mr-4 h-6 w-6"
-                        )}
-                        aria-hidden="true"
-                      />
-                      {item.name}
-                    </a>
-                  ))}
+                  {navigation.map(
+                    (item) =>
+                      item.show !== false && (
+                        <a
+                          key={item.name}
+                          href={item.href}
+                          className={classNames(
+                            item.href === location.pathname
+                              ? "bg-gray-900 text-white"
+                              : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                            "group flex items-center px-2 py-2 text-base font-medium rounded-md"
+                          )}
+                        >
+                          <item.icon
+                            className={classNames(
+                              item.href === location.pathname
+                                ? "text-gray-300"
+                                : "text-gray-400 group-hover:text-gray-300",
+                              "mr-4 h-6 w-6"
+                            )}
+                            aria-hidden="true"
+                          />
+                          {item.name}
+                        </a>
+                      )
+                  )}
                 </nav>
               </div>
               <div className="flex-shrink-0 flex bg-gray-700 p-4">
@@ -149,36 +150,35 @@ function SideBar(props) {
           <div className="flex flex-col h-0 flex-1 bg-gray-800">
             <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
               <div className="flex items-center flex-shrink-0 px-4">
-                <img
-                  className="h-8 w-auto"
-                  src="/img/logos/workflow-logo-indigo-500-mark-white-text.svg"
-                  alt="Workflow"
-                />
+                <img className="h-8 w-auto" src={Logo} alt="Logo" />
               </div>
               <nav className="mt-5 flex-1 px-2 bg-gray-800 space-y-1">
-                {navigation.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    className={classNames(
-                      item.href === location.pathname
-                        ? "bg-gray-900 text-white"
-                        : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                      "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
-                    )}
-                  >
-                    <item.icon
-                      className={classNames(
-                        item.href === location.pathname
-                          ? "text-gray-300"
-                          : "text-gray-400 group-hover:text-gray-300",
-                        "mr-3 h-6 w-6"
-                      )}
-                      aria-hidden="true"
-                    />
-                    {item.name}
-                  </a>
-                ))}
+                {navigation.map(
+                  (item) =>
+                    item.show !== false && (
+                      <a
+                        key={item.name}
+                        href={item.href}
+                        className={classNames(
+                          item.href === location.pathname
+                            ? "bg-gray-900 text-white"
+                            : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                          "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+                        )}
+                      >
+                        <item.icon
+                          className={classNames(
+                            item.href === location.pathname
+                              ? "text-gray-300"
+                              : "text-gray-400 group-hover:text-gray-300",
+                            "mr-3 h-6 w-6"
+                          )}
+                          aria-hidden="true"
+                        />
+                        {item.name}
+                      </a>
+                    )
+                )}
               </nav>
             </div>
             <div className="flex-shrink-0 flex bg-gray-700 p-4">
@@ -214,8 +214,8 @@ function SideBar(props) {
           </button>
         </div>
         <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none">
-          <div className="py-6 md:h-screen flex flex-col">
-            <div className="hidden md:block max-w-7xl mr-auto px-4 sm:px-6 lg:px-8">
+          <div className="py-6 md:min-h-screen flex flex-col">
+            <div className="md max-w-7xl mr-auto px-4 sm:px-6 lg:px-8">
               <h1 className="text-2xl font-semibold text-gray-900">
                 {getTitle()}
               </h1>
