@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { ApplicationController } from "../../../controllers/ApplicationController";
+import SnackbarUtils from "../../../utils/SnackbarUtils";
 
 function MeetingCompanySection(props) {
   const [status, setstatus] = useState(0);
@@ -18,6 +20,47 @@ function MeetingCompanySection(props) {
             Start the meeting
           </a>
         </div>
+      </div>
+      <div className="flex justify-end mt-4">
+        <button
+          type="button"
+          className="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm"
+          onClick={() => {
+            ApplicationController.pass(props.applicationProcessId, "CV Pass")
+              .then((res) => {
+                SnackbarUtils.success("Success passing CV");
+                setTimeout(() => {
+                  window.location.reload();
+                }, 1000);
+              })
+              .catch((err) => {
+                SnackbarUtils.error("There is an error");
+              });
+          }}
+        >
+          Pass
+        </button>
+        <button
+          type="button"
+          className="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+          onClick={() => {
+            ApplicationController.fail(
+              props.applicationProcessId,
+              "CV Rejected"
+            )
+              .then((res) => {
+                SnackbarUtils.success("Success rejecting CV");
+                setTimeout(() => {
+                  window.location.reload();
+                }, 1000);
+              })
+              .catch((err) => {
+                SnackbarUtils.error("There is an error");
+              });
+          }}
+        >
+          Reject
+        </button>
       </div>
     </div>
   ) : (

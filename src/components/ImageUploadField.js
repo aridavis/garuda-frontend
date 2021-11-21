@@ -15,7 +15,8 @@ const ImageUploadField = ({
   const ref = useRef(null);
 
   useEffect(() => {
-    if (value !== null) setImage(URL.createObjectURL(value));
+    if (value !== null && value !== undefined)
+      setImage(URL.createObjectURL(value));
     else setImage("");
   }, [value]);
 

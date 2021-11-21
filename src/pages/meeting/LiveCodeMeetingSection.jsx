@@ -198,9 +198,11 @@ function LiveCodeMeetingSection(props) {
         </main>
       </div>
 
-      <MeetingControl toggleChat={()=>{
-        setIsChatOpen(!isChatOpen);
-      }}/>
+      <MeetingControl
+        toggleChat={() => {
+          setIsChatOpen(!isChatOpen);
+        }}
+      />
     </div>
   );
 }

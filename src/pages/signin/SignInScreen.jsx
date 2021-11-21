@@ -3,6 +3,7 @@ import InputField from "../../components/InputField";
 import { generateInputFieldProps } from "../../props/InputFieldProps";
 import { UserController } from "../../controllers/UserController";
 import SnackbarUtils from "../../utils/SnackbarUtils";
+import ImageUploadField from "../../components/ImageUploadField";
 
 function SignInScreen() {
   const inputs = [
@@ -22,11 +23,18 @@ function SignInScreen() {
   const formik = useFormik({
     initialValues: {},
     onSubmit: (values, formikHelpers) => {
+      console.log("kocok");
+      console.log(formik.values);
+
+      console.log("koco1234k");
       UserController.registerJobseeker(formik.values)
         .then((res) => {
           SnackbarUtils.success(
             "Success registering user, please sign in again."
           );
+          setTimeout(() => {
+            window.location.href = "/login";
+          }, 1000);
         })
         .catch((err) => {
           SnackbarUtils.error("There is an error");
@@ -38,11 +46,8 @@ function SignInScreen() {
     <>
       <main className="overflow-hidden">
         <div className="bg-customwhite">
-          <div className="pb-24 pt-12 lg:pb-32">
+          <div className="py-24 lg:py-32">
             <div className="relative z-10 max-w-7xl mx-auto pl-4 pr-8 sm:px-6 lg:px-8">
-              <div className="w-full justify-center flex mb-10">
-                <img className="h-24 w-auto" src="/logo.png" alt="Logo" />
-              </div>
               <h1 className="text-4xl font-extrabold tracking-tight text-primary sm:text-5xl lg:text-6xl">
                 Create account
               </h1>
@@ -116,13 +121,11 @@ function SignInScreen() {
                         />
                       ) : (
                         <div className="col-span-2">
-                          <InputField
-                            {...f}
-                            {...formik}
-                            value={formik.values[f.name]}
-                            onChange={formik.handleChange}
-                            setFieldValue={formik.setFieldValue}
-                            limit={1}
+                          <ImageUploadField
+                            value={formik.values.image_url}
+                            onChange={(value) => {
+                              formik.setFieldValue("image_url", value);
+                            }}
                           />
                         </div>
                       )
