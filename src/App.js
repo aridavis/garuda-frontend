@@ -16,6 +16,7 @@ import JobScreen from "./pages/job/JobScreen";
 import ApplicationScreen from "./pages/application/ApplicationScreen";
 import QuestionContainer from "./pages/basictest/QuestionContainer";
 import ApplicationDetailScreen from "./pages/applicationdetail/ApplicationDetailScreen";
+import ApplicationTestScreen from "./pages/applicationtest/ApplicationTestScreen";
 import CourseScreen from "./pages/courses/CourseScreen";
 import CertificationScreen from "./pages/certification/CertificationScreen";
 
@@ -63,7 +64,11 @@ const App = () => {
                 path="/application-detail/:id"
                 element={<ApplicationDetailScreen />}
               />
-
+              <Route
+                exact
+                path="/application-test/:testid"
+                element={<ApplicationTestScreen />}
+              />
               <Route exact path="/workshop" element={<JobScreen />} />
               <Route
                 exact
