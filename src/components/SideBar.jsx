@@ -9,12 +9,22 @@ import {
 } from "@heroicons/react/outline";
 import { useLocation } from "react-router";
 import Logo from "../assets/logo.png";
+import {
+  LocalLibraryOutlined,
+  VerifiedUserOutlined,
+} from "@mui/icons-material";
 
 const navigation = [
   { name: "Jobs", href: "/job", icon: UsersIcon },
   { name: "Application Detail", href: "/application-detail", show: false },
   { name: "Application", href: "/application", icon: ClipboardIcon },
   { name: "Calendar", href: "/calendar", icon: CalendarIcon },
+  { name: "Courses", href: "/courses", icon: LocalLibraryOutlined },
+  {
+    name: "Certifications",
+    href: "/certifications",
+    icon: VerifiedUserOutlined,
+  },
 ];
 
 function classNames(...classes) {
