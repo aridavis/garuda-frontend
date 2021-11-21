@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { ApplicationController } from "../../../controllers/ApplicationController";
+import SnackbarUtils from "../../../utils/SnackbarUtils";
 
 function MeetingCompanySection(props) {
   const [status, setstatus] = useState(0);
@@ -23,7 +25,6 @@ function MeetingCompanySection(props) {
           </a>
         </div>
       </div>
-
       <div className="flex justify-end mt-5">
         <button
           type="submit"
