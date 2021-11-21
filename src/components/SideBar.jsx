@@ -1,7 +1,6 @@
 import { Fragment, useContext, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import {
-  CalendarIcon,
   ClipboardIcon,
   MenuIcon,
   UsersIcon,
@@ -19,7 +18,6 @@ const navigation = [
   { name: "Jobs", href: "/job", icon: UsersIcon },
   { name: "Application Detail", href: "/application-detail", show: false },
   { name: "Application", href: "/application", icon: ClipboardIcon },
-  { name: "Calendar", href: "/calendar", icon: CalendarIcon },
   { name: "Courses", href: "/courses", icon: LocalLibraryOutlined },
   {
     name: "Certifications",
@@ -163,7 +161,7 @@ function SideBar(props) {
           <div className="flex flex-col h-0 flex-1 bg-gray-800">
             <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
               <div className="flex items-center flex-shrink-0 px-4">
-                <img className="h-8 w-auto" src="/logo.png "alt="Logo" />
+                <img className="h-8 w-auto" src="/logo.png " alt="Logo" />
               </div>
               <nav className="mt-5 flex-1 px-2 bg-gray-800 space-y-1">
                 {navigation.map(

@@ -23,10 +23,6 @@ function SignInScreen() {
   const formik = useFormik({
     initialValues: {},
     onSubmit: (values, formikHelpers) => {
-      console.log("kocok");
-      console.log(formik.values);
-
-      console.log("koco1234k");
       UserController.registerJobseeker(formik.values)
         .then((res) => {
           SnackbarUtils.success(
