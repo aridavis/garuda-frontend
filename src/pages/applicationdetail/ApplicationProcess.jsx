@@ -2,15 +2,10 @@ import { CheckIcon } from "@heroicons/react/outline";
 import React, { useEffect, useState } from "react";
 import ApplicationTestSection from "./applicationtest/ApplicationTestSection";
 import CVReviewSection from "./cvreview/CVReviewSection";
-import { Cancel, CancelOutlined } from "@mui/icons-material";
-
-import { CheckIcon } from "@heroicons/react/outline";
-import React, { useState } from "react";
-import ApplicationTestSection from "./applicationtest/ApplicationTestSection";
-import CVReviewSection from "./cvreview/CVReviewSection";
+import { CancelOutlined } from "@mui/icons-material";
 import MeetingSection from "./meeting/MeetingSection";
 
-function ApplicationProcess({ steps }) {
+function ApplicationProcess({ steps, cv }) {
   const [selectedStep, setSelectedStep] = useState({});
 
   useEffect(() => {
@@ -143,7 +138,7 @@ function ApplicationProcess({ steps }) {
           ) : selectedStep.step.job_step.step.id === 2 ? (
             <ApplicationTestSection step={selectedStep} />
           ) : (
-            <MeetingSection />
+            <MeetingSection step={selectedStep} />
           )}
         </>
       )}

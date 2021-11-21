@@ -30,4 +30,6 @@ export const ApiPath = {
   GET_APPLICATION_PROCESS_DETAIL: Constant.API_PATH + "/application-process/{}",
   PASS: Constant.API_PATH + "/application-process/pass",
   FAIL: Constant.API_PATH + "/application-process/fail",
+
+  JOIN_MEETING: Constant.API_PATH + "/meeting/{}",
 };

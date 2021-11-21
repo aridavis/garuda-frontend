@@ -1,8 +1,16 @@
-import React, { createContext, useState, useRef, useEffect } from "react";
+import React, {
+  createContext,
+  useState,
+  useRef,
+  useEffect,
+  useContext,
+} from "react";
 import { io } from "socket.io-client";
 import Peer from "simple-peer";
 import { Constant } from "../constants/Constant";
 import { useParams } from "react-router-dom";
+import { UserContext } from "./UserContext";
+import { MeetingController } from "../controllers/MeetingController";
 
 const MeetingContext = createContext();
 
@@ -20,7 +28,7 @@ const MeetingContextProvider = ({ children }) => {
   const myVideo = useRef();
   const userVideo = useRef();
   const connectionRef = useRef();
-
+  const { user } = useContext(UserContext);
   const { id } = useParams();
 
   useEffect(() => {
@@ -28,7 +36,9 @@ const MeetingContextProvider = ({ children }) => {
       .getUserMedia({ video: true, audio: true })
       .then((currentStream) => {
         setStream(currentStream);
-        myVideo.current.srcObject = currentStream;
+        if (myVideo.current !== undefined) {
+          myVideo.current.srcObject = currentStream;
+        }
       });
     socket.on("me", (id) => {
       setMe(id);
@@ -40,8 +50,20 @@ const MeetingContextProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
+    if (user !== null && me !== "" && user.role_id !== 1 && roomId !== "") {
+      MeetingController.updateUserSocketId(roomId, me);
+    }
+  }, [me, user, roomId]);
+
+  useEffect(() => {
     setRoomId(id);
   }, [id]);
+
+  const updateVideo = () => {
+    if (myVideo.current !== undefined) {
+      myVideo.current.srcObject = stream;
+    }
+  };
 
   const answerCall = () => {
     setCallAccepted(true);
@@ -110,6 +132,7 @@ const MeetingContextProvider = ({ children }) => {
         leaveCall,
         answerCall,
         roomId,
+        updateVideo,
       }}
     >
       {children}
