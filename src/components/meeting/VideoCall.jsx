@@ -66,6 +66,7 @@ const VideoCall = (props) => {
       ) {
         callUser(res.data.content.socket_id);
       }
+      setMeetingData(res.data.content);
     });
   }, [user]);
 
@@ -78,19 +79,24 @@ const VideoCall = (props) => {
       }`}
     >
       {callAccepted && !callEnded ? (
-        <div className={`${classes.videoContainer} rounded-xl`}>
+        <div className={`${classes.videoContainer} rounded-xl overflow-hidden`}>
           <video
             playsInline
             ref={userVideo}
             autoPlay
             className={classes.video}
           />
+          <div className="w-full bg-gray-400 absolute">
+            {meetingData.process.application.user.first_name +
+              " " +
+              meetingData.process.application.user.last_name}
+          </div>
         </div>
       ) : (
         <div
           className={`${classes.videoContainer} rounded-xl`}
           style={{ backgroundColor: "grey" }}
-        ></div>
+        />
       )}
 
       {stream && (
@@ -102,7 +108,9 @@ const VideoCall = (props) => {
             autoPlay
             className={classes.video}
           />
-          <div className="w-full bg-gray-400 absolute">{me}</div>
+          <div className="w-full bg-gray-400 absolute">
+            {user !== null && user.first_name + " " + user.last_name}
+          </div>
         </div>
       )}
       {call.isReceivingCall && !callAccepted && (
