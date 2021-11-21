@@ -105,11 +105,7 @@ export default function ApplicationScreen() {
 
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <a
-<<<<<<< HEAD
-                          href="/"
-=======
                           href={"/application-detail/"+app.id}
->>>>>>> 128b617091efe8262302e8972075e6e49c55ab44
                           className="text-indigo-600 hover:text-indigo-900"
                         >
                           View Progress

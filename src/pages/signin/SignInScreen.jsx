@@ -65,7 +65,6 @@ function SignInScreen() {
   return (
     <>
       <main className="overflow-hidden">
-        {/* Header */}
         <div className="bg-customwhite">
           <div className="py-24 lg:py-32">
             <div className="relative z-10 max-w-7xl mx-auto pl-4 pr-8 sm:px-6 lg:px-8">

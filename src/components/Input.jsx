@@ -15,8 +15,14 @@ class Input extends Component {
             ? "password"
             : "text"
         }
-        error={Boolean(this.props.errors[this.props.name])}
-        helperText={this.props.errors[this.props.name]}
+        error={Boolean(
+          this.props.touched[this.props.name] &&
+            this.props.errors[this.props.name]
+        )}
+        helperText={
+          this.props.touched[this.props.name] &&
+          this.props.errors[this.props.name]
+        }
         fullWidth
         name={this.props.name}
         value={

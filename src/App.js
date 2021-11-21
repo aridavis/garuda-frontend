@@ -16,6 +16,7 @@ import JobScreen from "./pages/job/JobScreen";
 import ApplicationScreen from "./pages/application/ApplicationScreen";
 import QuestionContainer from "./pages/basictest/QuestionContainer";
 import ApplicationDetailScreen from "./pages/applicationdetail/ApplicationDetailScreen";
+import ApplicationTestScreen from "./pages/applicationtest/ApplicationTestScreen";
 
 const App = () => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -54,6 +55,11 @@ const App = () => {
                 exact
                 path="/application-detail/:applicationsid"
                 element={<ApplicationDetailScreen />}
+              />
+              <Route
+                exact
+                path="/application-test/:testid"
+                element={<ApplicationTestScreen />}
               />
               <Route exact path="/workshop" element={<JobScreen />} />
               <Route
