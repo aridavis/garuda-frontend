@@ -3,6 +3,7 @@ import InputField from "../../components/InputField";
 import { generateInputFieldProps } from "../../props/InputFieldProps";
 import { UserController } from "../../controllers/UserController";
 import SnackbarUtils from "../../utils/SnackbarUtils";
+import logo from "../../assets/logo.png"
 
 function SignInScreen() {
   const inputs = [
@@ -66,8 +67,11 @@ function SignInScreen() {
     <>
       <main className="overflow-hidden">
         <div className="bg-customwhite">
-          <div className="py-24 lg:py-32">
+          <div className="pb-24 pt-12 lg:pb-32">
             <div className="relative z-10 max-w-7xl mx-auto pl-4 pr-8 sm:px-6 lg:px-8">
+              <div className="w-full justify-center flex mb-10">
+                <img className="h-24 w-auto" src={logo} alt="Logo" />
+              </div>
               <h1 className="text-4xl font-extrabold tracking-tight text-primary sm:text-5xl lg:text-6xl">
                 Create account
               </h1>

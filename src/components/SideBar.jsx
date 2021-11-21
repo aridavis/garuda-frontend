@@ -8,7 +8,7 @@ import {
   XIcon,
 } from "@heroicons/react/outline";
 import { useLocation } from "react-router";
-import Logo from "../assets/logo.png";
+import Logo from "../assets/logo_white.png";
 import {
   LocalLibraryOutlined,
   VerifiedUserOutlined,

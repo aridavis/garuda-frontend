@@ -10,9 +10,7 @@ function MeetingScreen(props) {
   const [meetingType, setmeetingType] = useState("liveCode")
 
   return (
-    meetingId === "" && (user === null || user.role_id === 1) ?
-      (<UserWaitingRoomScreen />) :
-      meetingType === "liveCode" ?
+    meetingType === "liveCode" ?
         (<LiveCodeMeetingSection />) :
         (<DefaultMeetingSection />)
   );

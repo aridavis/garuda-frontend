@@ -10,6 +10,7 @@ function ApplicationDetailScreen(props) {
   let { id } = useParams();
 
   const [application, setapplication] = useState({});
+  const [result, setResult] = useState('')
 
   const { user } = useContext(UserContext);
   console.log(user);
@@ -20,15 +21,6 @@ function ApplicationDetailScreen(props) {
     // eslint-disable-next-line
   }, []);
 
-  // const job = {
-  //   position: "Software Engineer",
-  //   company: "BeliBeli",
-  //   payrange: 120000,
-  //   country: "Indonesia",
-  //   city: "Jakarta",
-  //   description:
-  //     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-  // };
   const { job } = application;
 
   return (
@@ -112,6 +104,49 @@ function ApplicationDetailScreen(props) {
                   <dt className="text-sm font-medium text-gray-500">Address</dt>
                   <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                     {user.address}, {user.city}, {user.state}, {user.country}
+                  </dd>
+                </div>
+              </dl>
+            </div>
+            <div>
+              <h3 className="text-lg leading-6 font-medium text-gray-900 mt-5">
+                Application Result
+              </h3>
+            </div>
+            <div className="mt-5 border-t border-gray-200">
+              <dl className="sm:divide-y sm:divide-gray-200">
+                <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                  <dt className="text-sm font-medium text-gray-500">
+                    Result
+                  </dt>
+                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    {
+                      user.role_id === 1 || result !== "" ?
+                        (result !== "" ? result : "please wait until you recruitment process is finished") :
+                        (
+                          <div className="flex justify-end">
+                            <button
+                              type="button"
+                              className="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+                              onClick={() => {
+
+                              }}
+                            >
+                              Fail
+                            </button>
+                            <button
+                              type="button"
+                              className="ml-2 inline-flex justify-center rounded-md border border-green-300 shadow-sm px-4 py-2 bg-green-500 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:mt-0 sm:w-auto sm:text-sm"
+                              onClick={()=>{
+
+                              }}
+                            >
+                              Pass
+                            </button>
+                          </div>
+                        )
+
+                    }
                   </dd>
                 </div>
               </dl>
