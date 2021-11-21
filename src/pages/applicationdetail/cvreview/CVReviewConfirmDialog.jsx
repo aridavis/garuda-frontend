@@ -106,7 +106,7 @@ function CVReviewConfirmDialog(props) {
                   onClick={() => {
                     ApplicationController.fail(
                       props.applicationProcessId,
-                      "CV Pass"
+                      "CV Rejected"
                     )
                       .then((res) => {
                         SnackbarUtils.success("Success rejecting CV");

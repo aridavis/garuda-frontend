@@ -1,9 +1,6 @@
-import { Fragment, useEffect, useState } from "react";
-import { Menu, Transition } from "@headlessui/react";
-import { SearchIcon } from "@heroicons/react/solid";
+import { useContext, useEffect, useState } from "react";
 import { CodeEditorEditable } from "react-code-editor-editable";
 import "highlight.js/styles/dracula.css";
-import { BellIcon } from "@heroicons/react/outline";
 import { CodeController } from "../../controllers/CodeController";
 import VideoCall from "../../components/meeting/VideoCall";
 import ChatBox from "../../components/meeting/ChatBox";
@@ -11,16 +8,21 @@ import { io } from "socket.io-client";
 import { Constant } from "../../constants/Constant";
 import MeetingControl from "../../components/meeting/MeetingControl";
 import SnackbarUtils from "../../utils/SnackbarUtils";
-
-const queryString = require("query-string");
-const parsed = queryString.parse(window.location.search);
+import { UserContext } from "../../context/UserContext";
+import { MeetingContext } from "../../context/MeetingContext";
+import { MeetingController } from "../../controllers/MeetingController";
 
 const languages = require("../../json/ProgrammingLanguages.json");
 
 const socket = io(Constant.SOCKET_URL);
 
 function LiveCodeMeetingSection(props) {
+  const { user } = useContext(UserContext);
+  const { roomId, me } = useContext(MeetingContext);
   const [question, setQuestion] = useState({});
+  const [questionList, setQuestionList] = useState([]);
+  const [selectedQuestion, setSelectedQuestion] = useState({});
+  const [selectedQuestionId, setSelectedQuestionId] = useState("");
   const [selectedLanguage, setSelectedLanguage] = useState(languages[0].id);
   const [result, setResult] = useState("");
   const [selectedLanguageStyle, setselectedLanguageStyle] = useState(
@@ -30,22 +32,32 @@ function LiveCodeMeetingSection(props) {
   const [code, setCode] = useState("");
 
   useEffect(() => {
-    CodeController.show(1).then((res) => {
-      setQuestion(res.data.content);
-    });
-  }, []);
+    if (user !== null && user.role_id > 1 && me !== null && roomId !== null) {
+      MeetingController.updateUserSocketId(roomId, me);
+      CodeController.get().then((res) => {
+        setQuestionList(res.data.contents);
+      });
+    }
+  }, [user, me, roomId]);
 
   useEffect(() => {
     socket.on("writeCode", (code, from) => {
-      if (from.toString() !== parsed.id.toString()) {
-        console.log(from);
-        console.log(parsed.id);
+      if (from.toString() !== user.id.toString()) {
         setCode(code);
       }
     });
 
     socket.on("codeResult", (result) => {
       setResult(result);
+    });
+
+    socket.on("chooseCase", (data) => {
+      setQuestion(data);
+    });
+
+    socket.on("removeCodeQuestion", (id) => {
+      setQuestion({});
+      setCode("");
     });
     // eslint-disable-next-line
   }, [socket]);
@@ -60,7 +72,7 @@ function LiveCodeMeetingSection(props) {
   const onSubmit = () => {
     CodeController.submit(question.id, selectedLanguage, code)
       .then((res) => {
-        socket.emit("codeResult", 1, res.data.content.result);
+        socket.emit("codeResult", roomId, res.data.content.result);
       })
       .catch((err) => {
         SnackbarUtils.error("There is an error");
@@ -78,7 +90,6 @@ function LiveCodeMeetingSection(props) {
             className="min-w-0 flex-1 h-full flex flex-col overflow-hidden lg:order-last"
           >
             <VideoCall socket={socket} />
-
             <ChatBox socket={socket} />
           </section>
 
@@ -100,14 +111,14 @@ function LiveCodeMeetingSection(props) {
                   );
                   socket.emit(
                     "changeLanguage",
-                    1,
+                    roomId,
                     e.target.value,
                     languages.filter(
                       (res) => res.id.toString() === e.target.value.toString()
                     )[0].style
                   );
                   setCode("");
-                  socket.emit("writeCode", 1, "", parsed.id);
+                  socket.emit("writeCode", roomId, "", user.id);
                 }}
               >
                 {languages.map((res) => (
@@ -124,23 +135,55 @@ function LiveCodeMeetingSection(props) {
                 value={code}
                 setValue={(val) => {
                   setCode(val);
-                  socket.emit("writeCode", 1, val, parsed.id);
+                  socket.emit("writeCode", roomId, val, user.id);
                 }}
                 width="100%"
                 height="100vh"
                 language={selectedLanguageStyle}
                 inlineNumbers
               />
-              <div className="w-full py-3 flex">
-                <span>{result}</span>
-                <button
-                  type="button"
-                  className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                  onClick={onSubmit}
-                >
-                  Submit
-                </button>
-              </div>
+              {user !== null && user.role_id > 1 && (
+                <>
+                  <select
+                    value={selectedQuestionId}
+                    onChange={(e) => {
+                      setSelectedQuestionId(e.target.value);
+                      setSelectedQuestion(
+                        questionList.filter(
+                          (res) =>
+                            res.id.toString() === e.target.value.toString()
+                        )[0]
+                      );
+                    }}
+                  >
+                    <option value=""></option>
+                    {questionList.map((res) => (
+                      <option value={res.id}>{res.name}</option>
+                    ))}
+                  </select>
+                  <button
+                    type="button"
+                    className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    onClick={() => {
+                      socket.emit("chooseCase", roomId, selectedQuestion);
+                    }}
+                  >
+                    Submit
+                  </button>
+                </>
+              )}
+              {user !== null && user.id === 1 && (
+                <div className="w-full py-3 flex">
+                  <span>{result}</span>
+                  <button
+                    type="button"
+                    className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    onClick={onSubmit}
+                  >
+                    Submit
+                  </button>
+                </div>
+              )}
             </div>
           </aside>
         </main>

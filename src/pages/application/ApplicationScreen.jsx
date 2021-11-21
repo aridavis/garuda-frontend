@@ -1,24 +1,44 @@
 import SideBar from "../../components/SideBar";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ApplicationController } from "../../controllers/ApplicationController";
+import { UserContext } from "../../context/UserContext";
 
 export default function ApplicationScreen() {
   const [applications, setApplications] = useState([]);
 
+  const { user } = useContext(UserContext);
+
   useEffect(() => {
-    ApplicationController.getApplicationList({
-      paging: {
-        page: 0,
-        size: 200,
-      },
-      sort: {
-        sort_by: "",
-        direction: "",
-      },
-    }).then((res) => {
-      setApplications(res.data.contents);
-    });
-  }, []);
+    if (user !== null) {
+      if (user.role_id === 1) {
+        ApplicationController.getApplicationList({
+          paging: {
+            page: 0,
+            size: 200,
+          },
+          sort: {
+            sort_by: "",
+            direction: "",
+          },
+        }).then((res) => {
+          setApplications(res.data.contents);
+        });
+      } else {
+        ApplicationController.getCompanyApplicationList({
+          paging: {
+            page: 0,
+            size: 200,
+          },
+          sort: {
+            sort_by: "",
+            direction: "",
+          },
+        }).then((res) => {
+          setApplications(res.data.contents);
+        });
+      }
+    }
+  }, [user]);
 
   return (
     <SideBar>
@@ -33,13 +53,15 @@ export default function ApplicationScreen() {
                       scope="col"
                       className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
-                      Company
+                      {user !== null && user.role_id === 1
+                        ? "Company"
+                        : "Applicant"}
                     </th>
                     <th
                       scope="col"
                       className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
-                      Name
+                      Position
                     </th>
                     <th
                       scope="col"
@@ -67,14 +89,22 @@ export default function ApplicationScreen() {
                         <div className="flex items-center">
                           <div className="flex-shrink-0 h-10 w-10">
                             <img
-                              className="h-10 w-10 rounded-full"
-                              src={app.job.company.image_url}
+                              className="h-10 w-10 rounded-full object-cover"
+                              src={
+                                user !== null && user.role_id === 1
+                                  ? app.job.company.image_url
+                                  : app.user.image_url
+                              }
                               alt=""
                             />
                           </div>
                           <div className="ml-4">
                             <div className="text-sm font-medium text-gray-900">
-                              {app.job.company.name}
+                              {user !== null && user.role_id === 1
+                                ? app.job.company.name
+                                : app.user.first_name +
+                                  " " +
+                                  app.user.last_name}
                             </div>
                             <div className="text-sm text-gray-500">
                               {app.job.company.category}
@@ -96,9 +126,15 @@ export default function ApplicationScreen() {
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                          Active
-                        </span>
+                        {!app.done && !app.active ? (
+                          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                            {!app.done && !app.active && "Rejected"}
+                          </span>
+                        ) : (
+                          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                            {app.done ? "Done" : app.active ? "Active" : ""}
+                          </span>
+                        )}
                       </td>
 
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">

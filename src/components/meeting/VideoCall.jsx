@@ -8,6 +8,7 @@ const useStyles = makeStyles((theme) => ({
   gridContainer: {
     height: "60%",
     display: "block !important",
+    boxSizing: 'borsder-box'
   },
   paper: {
     padding: "10px",
@@ -21,10 +22,10 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     objectFit: "cover",
   },
-
   videoContainer: {
     position: "relative",
-    height: "50%",
+    // height: "96px",
+    aspectRatio: "16/9",
     width: "100%",
     display: "flex",
     justifyContent: "center",
@@ -47,24 +48,22 @@ const VideoCall = () => {
   } = useContext(MeetingContext);
   const classes = useStyles();
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   return (
-    <Grid container className={classes.gridContainer}>
+    <div className="grid grid-cols-2 lg:grid-cols-1 gap-4 sm:gap-x-6 sm:gap-y-6 sm:space-y-0 lg:gap-x-8 m-auto">
       {callAccepted && !callEnded ? (
-        <Grid item xs={12} className={classes.videoContainer}>
+        <div className={`${classes.videoContainer} rounded-xl`}>
           <video
             playsInline
             ref={userVideo}
             autoPlay
             className={classes.video}
           />
-        </Grid>
+        </div>
       ) : (
-        <Grid
-          item
-          xs={12}
-          className={classes.videoContainer}
+        <div
+          className={`${classes.videoContainer} rounded-xl`}
           style={{ backgroundColor: "grey" }}
         >
           {call.isReceivingCall && !callAccepted && (
@@ -74,11 +73,12 @@ const VideoCall = () => {
               </Button>
             </div>
           )}
-        </Grid>
+        </div>
       )}
 
       {stream && (
-        <Grid item xs={12} className={classes.videoContainer}>
+        <div
+          className={`${classes.videoContainer} rounded-xl overflow-hidden`}>
           <video
             playsInline
             muted
@@ -87,20 +87,22 @@ const VideoCall = () => {
             className={classes.video}
           />
           <div className="w-full bg-gray-400 absolute">{me}</div>
-        </Grid>
+        </div>
       )}
-      <TextField
-        value={target}
-        onChange={(e) => setTarget(e.currentTarget.value)}
-      />
-      <Button
-        onClick={() => {
-          callUser(target);
-        }}
-      >
-        join
-      </Button>
-    </Grid>
+      <div className="flex justify-center flex-col">
+        <TextField
+          value={target}
+          onChange={(e) => setTarget(e.currentTarget.value)}
+        />
+        <Button
+          onClick={() => {
+            callUser(target);
+          }}
+        >
+          join
+        </Button>
+      </div>
+    </div>
   );
 };
 

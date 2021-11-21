@@ -2,6 +2,7 @@ import { CheckIcon } from "@heroicons/react/outline";
 import React, { useEffect, useState } from "react";
 import ApplicationTestSection from "./applicationtest/ApplicationTestSection";
 import CVReviewSection from "./cvreview/CVReviewSection";
+import { Cancel, CancelOutlined } from "@mui/icons-material";
 
 function ApplicationProcess({ steps, cv }) {
   const [selectedStep, setSelectedStep] = useState({});
@@ -15,11 +16,13 @@ function ApplicationProcess({ steps, cv }) {
         });
         return;
       }
+      if (steps[i].result !== null) {
+        setSelectedStep({
+          index: i,
+          step: steps[i],
+        });
+      }
     }
-    setSelectedStep({
-      index: steps.length - 1,
-      step: steps[steps.length - 1],
-    });
   }, []);
 
   const handleChangeStep = (index) => {
@@ -84,6 +87,30 @@ function ApplicationProcess({ steps, cv }) {
                       {step.name}
                     </span>
                   </button>
+                ) : step.status === "fail" ? (
+                  <button
+                    className="group flex items-center w-full"
+                    onClick={() => {
+                      handleChangeStep(stepIdx);
+                    }}
+                  >
+                    <span
+                      className="px-6 py-4 flex items-center text-sm font-medium"
+                      onClick={() => {
+                        handleChangeStep(stepIdx);
+                      }}
+                    >
+                      <span className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-primary rounded-full group-hover:bg-primary">
+                        <CancelOutlined
+                          className="w-6 h-6 text-white"
+                          aria-hidden="true"
+                        />
+                      </span>
+                      <span className="ml-4 text-sm font-medium text-gray-900">
+                        {step.name}
+                      </span>
+                    </span>
+                  </button>
                 ) : (
                   <button className="group flex items-center">
                     <span className="px-6 py-4 flex items-center text-sm font-medium">
@@ -95,9 +122,7 @@ function ApplicationProcess({ steps, cv }) {
                       <span className="ml-4 text-sm font-medium text-gray-500 group-hover:text-gray-900">
                         {step.name}
                       </span>
-                      <span className="ml-4 text-sm font-medium text-primary">
-                        • upcoming
-                      </span>
+                      <span className="ml-4 text-sm font-medium text-primary"></span>
                     </span>
                   </button>
                 )}
@@ -108,13 +133,13 @@ function ApplicationProcess({ steps, cv }) {
       <br />
       {steps !== null && selectedStep.step !== undefined && (
         <>
-          {selectedStep.step.id === 1 ? (
+          {selectedStep.step.job_step.step.id === 1 ? (
             <CVReviewSection step={selectedStep} cv={cv} />
-          ) : selectedStep.step.id === 2 ? (
+          ) : selectedStep.step.job_step.step.id === 2 ? (
             <ApplicationTestSection step={selectedStep} />
-          ) : selectedStep.step.id === 3 ? (
+          ) : selectedStep.step.job_step.step.id === 3 ? (
             <ApplicationHRInterview step={selectedStep} />
-          ) : selectedStep.step.id === 4 ? (
+          ) : selectedStep.step.job_step.step.id === 4 ? (
             <ApplicationUserCodingInterview step={selectedStep} />
           ) : (
             <ApplicationUserCodingInterview step={selectedStep} />

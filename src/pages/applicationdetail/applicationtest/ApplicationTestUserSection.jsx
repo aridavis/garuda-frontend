@@ -13,7 +13,7 @@ function ApplicationTestUserSection(props) {
       <div className="mt-8 flex justify-center">
         <div className="inline-flex rounded-md shadow">
           <a
-            href={"/aptitude-test/" + props.step.id}
+            href={"/aptitude-test/" + props.step.step.id}
             className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
           >
             Start the test

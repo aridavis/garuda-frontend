@@ -28,7 +28,7 @@ function LoginScreen() {
             path: "/",
             expires: new Date(res.data.expires_at),
           });
-          window.location.href = "/";
+          window.location.href = "/job";
         })
         .catch((err) => {
           switch (err.response.status) {

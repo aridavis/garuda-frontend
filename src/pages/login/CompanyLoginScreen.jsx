@@ -12,16 +12,8 @@ const cookie = require("react-cookies");
 function CompanyLoginScreen() {
   const inputs = [
     generateInputFieldProps("email", "Email", "text"),
-    generateInputFieldProps(
-      "password",
-      "Password",
-      "password"
-    ),
-    generateInputFieldProps(
-      "check",
-      "Remember Me",
-      "check"
-    ),
+    generateInputFieldProps("password", "Password", "password"),
+    generateInputFieldProps("check", "Remember Me", "check"),
   ];
 
   const formik = useFormik({
@@ -38,7 +30,7 @@ function CompanyLoginScreen() {
             path: "/",
             expires: new Date(res.data.expires_at),
           });
-          window.location.href = "/";
+          window.location.href = "/job";
         })
         .catch((err) => {
           try {

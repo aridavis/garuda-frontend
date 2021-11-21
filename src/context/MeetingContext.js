@@ -30,7 +30,9 @@ const MeetingContextProvider = ({ children }) => {
         setStream(currentStream);
         myVideo.current.srcObject = currentStream;
       });
-    socket.on("me", (id) => setMe(id));
+    socket.on("me", (id) => {
+      setMe(id);
+    });
 
     socket.on("callUser", ({ from, name: callerName, signal }) => {
       setCall({ isReceivingCall: true, from, name: callerName, signal });

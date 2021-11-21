@@ -11,11 +11,12 @@ function ApplicationDetailScreen(props) {
 
   const [application, setapplication] = useState({});
 
-  const { user } = useContext(UserContext);
-  console.log(user);
+  const [user, setUser] = useState({});
+
   useEffect(() => {
     ApplicationController.getApplicationDetail(id).then((res) => {
       setapplication(res.data.content);
+      setUser(res.data.content.user);
     });
     // eslint-disable-next-line
   }, []);

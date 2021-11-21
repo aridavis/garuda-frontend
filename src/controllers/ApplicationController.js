@@ -5,6 +5,11 @@ export class ApplicationController {
   static apply = (body) => {
     return ApiClient.Post(ApiPath.APPLY_JOB, [], body);
   };
+
+  static getCompanyApplicationList = (body) => {
+    return ApiClient.Post(ApiPath.GET_APPLICATION_LIST_COMPANY, [], body);
+  };
+
   static getApplicationList = (body) => {
     return ApiClient.Post(ApiPath.GET_APPLICATION_LIST, [], body);
   };
