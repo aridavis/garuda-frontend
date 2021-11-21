@@ -23,7 +23,7 @@ function MeetingScreen(props) {
 
   return user === null ? (
     <UserWaitingRoomScreen />
-  ) : meetingSocketId === "" && (user === null || user.role_id === 1) ? (
+  ) : meetingSocketId === null && (user === null || user.role_id === 1) ? (
     <UserWaitingRoomScreen />
   ) : meetingType === 2 ? (
     <LiveCodeMeetingSection />
