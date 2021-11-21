@@ -3,8 +3,9 @@ import { CheckIcon } from '@heroicons/react/outline';
 import React, { useState } from 'react';
 import ApplicationTestSection from './applicationtest/ApplicationTestSection';
 import CVReviewSection from './cvreview/CVReviewSection';
+import MeetingSection from './meeting/MeetingSection';
 
-function ApplicationProcess({steps}) {
+function ApplicationProcess({ steps }) {
 
   const [selectedStep, setSelectedStep] = useState({
     index: 0,
@@ -77,55 +78,10 @@ function ApplicationProcess({steps}) {
           (<CVReviewSection />) :
           selectedStep.step.job_step.step_id === 2 ?
             (<ApplicationTestSection />) :
-            selectedStep.step.job_step.step_id === 3 ?
-              (<ApplicationHRInterview />) :
-              selectedStep.step.job_step.step_id === 4 ?
-                (<ApplicationUserCodingInterview />) :
-                (<ApplicationUserCodingInterview />)
+            (<MeetingSection />)
       }
     </>
   );
 }
-
-const ApplicationHRInterview = (props) => {
-  return (
-    <div className="max-w-7xl m-auto text-center flex flex-col justify-center py-12 px-4 sm:px-6 lg:py-16 lg:px-8 h-96 mt-8 bg-white pb-16 sm:mt-12 sm:pb-20 lg:pb-28">
-      <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-        <span className="block">Ready to take your test?</span>
-      </h2>
-      <div className="mt-8 flex justify-center">
-        <div className="inline-flex rounded-md shadow">
-          <a
-            href="/application-test/1"
-            className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
-          >
-            Start the test
-          </a>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-const ApplicationUserCodingInterview = (props) => {
-  return (
-    <div className="max-w-7xl m-auto text-center flex flex-col justify-center py-12 px-4 sm:px-6 lg:py-16 lg:px-8 h-96 mt-8 bg-white pb-16 sm:mt-12 sm:pb-20 lg:pb-28">
-      <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-        <span className="block">Ready to take your test?</span>
-      </h2>
-      <div className="mt-8 flex justify-center">
-        <div className="inline-flex rounded-md shadow">
-          <a
-            href="/application-test/1"
-            className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
-          >
-            Start the test
-          </a>
-        </div>
-      </div>
-    </div>
-  )
-}
-
 
 export default ApplicationProcess;

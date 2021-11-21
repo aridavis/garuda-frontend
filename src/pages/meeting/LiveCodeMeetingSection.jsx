@@ -73,10 +73,10 @@ function LiveCodeMeetingSection(props) {
             aria-labelledby="primary-heading"
             className="min-w-0 flex-1 h-full p-2 flex flex-col"
           >
-            <div className={`${!isChatOpen ? "hidden" : ""} m-auto`}>
-              <VideoCall socket={socket} />
+            <div className={`${isChatOpen ? "hidden" : ""} m-auto`}>
+              <VideoCall socket={socket} isLiveCode={true}/>
             </div>
-            <div className={`${!isChatOpen ? "" : "hidden"} h-screen`}>
+            <div className={`${isChatOpen ? "" : "hidden"} h-screen`}>
               <ChatBox socket={socket} />
             </div>
           </section>

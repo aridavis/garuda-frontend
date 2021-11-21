@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Grid, Button, TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
 import { MeetingContext } from "../../context/MeetingContext";
@@ -24,7 +24,6 @@ const useStyles = makeStyles((theme) => ({
   },
   videoContainer: {
     position: "relative",
-    // height: "96px",
     aspectRatio: "16/9",
     width: "100%",
     display: "flex",
@@ -33,7 +32,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const VideoCall = () => {
+const VideoCall = (props) => {
+  console.log(props)
   const [target, setTarget] = useState("");
   const {
     callAccepted,
@@ -51,7 +51,7 @@ const VideoCall = () => {
   useEffect(() => { }, []);
 
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-1 gap-4 sm:gap-x-6 sm:gap-y-6 sm:space-y-0 lg:gap-x-8 m-auto">
+    <div className={`grid grid-cols-2 gap-4 sm:gap-x-6 sm:gap-y-6 sm:space-y-0 lg:gap-x-8 m-auto ${props.isLiveCode && "lg:flex flex-col"}`}>
       {callAccepted && !callEnded ? (
         <div className={`${classes.videoContainer} rounded-xl`}>
           <video
@@ -89,7 +89,7 @@ const VideoCall = () => {
           <div className="w-full bg-gray-400 absolute">{me}</div>
         </div>
       )}
-      <div className="flex justify-center flex-col">
+      <div className="flex justify-center flex-col col-span-2">
         <TextField
           value={target}
           onChange={(e) => setTarget(e.currentTarget.value)}

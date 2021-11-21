@@ -51,7 +51,7 @@ export default function ChatBox({ socket }) {
         ))}
         <div ref={messagesEndRef} />
       </div>
-      <div item xs={12}>
+      <div>
         <form onSubmit={onSubmit}>
           <TextField
             fullWidth
