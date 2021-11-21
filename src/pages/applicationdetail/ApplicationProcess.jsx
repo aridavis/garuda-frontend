@@ -4,6 +4,7 @@ import ApplicationTestSection from "./applicationtest/ApplicationTestSection";
 import CVReviewSection from "./cvreview/CVReviewSection";
 import { Cancel, CancelOutlined } from "@mui/icons-material";
 
+<<<<<<< HEAD
 function ApplicationProcess({ steps, cv }) {
   const [selectedStep, setSelectedStep] = useState({});
 
@@ -24,6 +25,20 @@ function ApplicationProcess({ steps, cv }) {
       }
     }
   }, []);
+=======
+import { CheckIcon } from '@heroicons/react/outline';
+import React, { useState } from 'react';
+import ApplicationTestSection from './applicationtest/ApplicationTestSection';
+import CVReviewSection from './cvreview/CVReviewSection';
+import MeetingSection from './meeting/MeetingSection';
+
+function ApplicationProcess({ steps }) {
+
+  const [selectedStep, setSelectedStep] = useState({
+    index: 0,
+    step: steps[0]
+  });
+>>>>>>> 17724465418e7017ecda2ea98ac5b246e3dc2b6c
 
   const handleChangeStep = (index) => {
     setSelectedStep({
@@ -130,6 +145,7 @@ function ApplicationProcess({ steps, cv }) {
             ))}
         </ol>
       </nav>
+<<<<<<< HEAD
       <br />
       {steps !== null && selectedStep.step !== undefined && (
         <>
@@ -146,10 +162,20 @@ function ApplicationProcess({ steps, cv }) {
           )}
         </>
       )}
+=======
+      {
+        selectedStep.step.job_step.step_id === 1 ?
+          (<CVReviewSection />) :
+          selectedStep.step.job_step.step_id === 2 ?
+            (<ApplicationTestSection />) :
+            (<MeetingSection />)
+      }
+>>>>>>> 17724465418e7017ecda2ea98ac5b246e3dc2b6c
     </>
   );
 }
 
+<<<<<<< HEAD
 const ApplicationHRInterview = (props) => {
   return (
     <div className="max-w-7xl m-auto text-center flex flex-col justify-center py-12 px-4 sm:px-6 lg:py-16 lg:px-8 h-96 mt-8 bg-white pb-16 sm:mt-12 sm:pb-20 lg:pb-28">
@@ -191,3 +217,6 @@ const ApplicationUserCodingInterview = (props) => {
 };
 
 export default ApplicationProcess;
+=======
+export default ApplicationProcess;
+>>>>>>> 17724465418e7017ecda2ea98ac5b246e3dc2b6c

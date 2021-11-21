@@ -19,6 +19,7 @@ import ApplicationTestScreen from "./pages/applicationtest/ApplicationTestScreen
 import CourseScreen from "./pages/courses/CourseScreen";
 import CertificationScreen from "./pages/certification/CertificationScreen";
 import LiveCodeMeetingSection from "./pages/meeting/LiveCodeMeetingSection";
+import DefaultMeetingSection from "./pages/meeting/DefaultMeetingSection";
 
 const App = () => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -49,8 +50,9 @@ const App = () => {
                 path="/meeting/:id"
                 element={
                   <MeetingContextProvider>
-                    {/* <MeetingScreen /> */}
-                    <LiveCodeMeetingSection />
+                    <MeetingScreen />
+                    {/* <LiveCodeMeetingSection /> */}
+                    {/* <DefaultMeetingSection /> */}
                   </MeetingContextProvider>
                 }
               />
