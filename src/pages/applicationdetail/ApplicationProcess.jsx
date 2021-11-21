@@ -1,16 +1,10 @@
+
 import { CheckIcon } from '@heroicons/react/outline';
 import React, { useState } from 'react';
 import ApplicationTestSection from './applicationtest/ApplicationTestSection';
 import CVReviewSection from './cvreview/CVReviewSection';
 
-function ApplicationProcess(props) {
-  const steps = [
-    { type: '1', name: 'Application form', applicationProcessId: '2', status: 'complete' },
-    { type: '2', name: 'Aptitude Test', applicationProcessId: '1', status: 'complete' },
-    { type: '4', name: 'User Interview (Programming)', applicationProcessId: '3', status: 'current' },
-    { type: '3', name: 'HR Interview', applicationProcessId: '4', status: 'upcoming' },
-
-  ]
+function ApplicationProcess({steps}) {
 
   const [selectedStep, setSelectedStep] = useState({
     index: 0,

@@ -16,6 +16,7 @@ export const ApiPath = {
 
   APPLY_JOB: Constant.API_PATH + "/applications/store",
   GET_APPLICATION_LIST: Constant.API_PATH + "/applications/filter",
+  GET_APPLICATION_DETAIL: Constant.API_PATH + "/applications/{}",
 
   QUESTION_LIST: Constant.API_PATH + "/basic-questions",
 

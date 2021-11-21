@@ -8,4 +8,8 @@ export class ApplicationController {
   static getApplicationList = (body) => {
     return ApiClient.Post(ApiPath.GET_APPLICATION_LIST, [], body);
   };
+
+  static getApplicationDetail = (id) => {
+    return ApiClient.Get(ApiPath.GET_APPLICATION_DETAIL, [id], {});
+  };
 }
