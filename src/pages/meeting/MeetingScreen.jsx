@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { SearchIcon } from "@heroicons/react/solid";
 import { CodeEditorEditable } from "react-code-editor-editable";
@@ -9,16 +9,12 @@ import VideoCall from "../../components/meeting/VideoCall";
 import ChatBox from "../../components/meeting/ChatBox";
 import { io } from "socket.io-client";
 import { Constant } from "../../constants/Constant";
+import { UserContext } from "../../context/UserContext";
+import { MeetingContext } from "../../context/MeetingContext";
 const queryString = require("query-string");
 const parsed = queryString.parse(window.location.search);
 
 const languages = require("../../json/ProgrammingLanguages.json");
-const user = {
-  name: "Whitney Francis",
-  email: "whitneyfrancis@example.com",
-  imageUrl:
-    "https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-};
 
 const socket = io(Constant.SOCKET_URL);
 
@@ -27,7 +23,12 @@ function classNames(...classes) {
 }
 
 export default function MeetingScreen() {
+  const { user } = useContext(UserContext);
+  const { roomId } = useContext(MeetingContext);
   const [question, setQuestion] = useState({});
+  const [questionList, setQuestionList] = useState([]);
+  const [selectedQuestion, setSelectedQuestion] = useState({});
+  const [selectedQuestionId, setSelectedQuestionId] = useState("");
   const [selectedLanguage, setSelectedLanguage] = useState(languages[0].id);
   const [result, setResult] = useState("");
   const [selectedLanguageStyle, setselectedLanguageStyle] = useState(
@@ -37,22 +38,31 @@ export default function MeetingScreen() {
   const [code, setCode] = useState("");
 
   useEffect(() => {
-    CodeController.show(1).then((res) => {
-      setQuestion(res.data.content);
-    });
-  }, []);
+    if (user !== null && user.role_id > 1) {
+      CodeController.get().then((res) => {
+        setQuestionList(res.data.contents);
+      });
+    }
+  }, [user]);
 
   useEffect(() => {
     socket.on("writeCode", (code, from) => {
-      if (from.toString() !== parsed.id.toString()) {
-        console.log(from);
-        console.log(parsed.id);
+      if (from.toString() !== user.id.toString()) {
         setCode(code);
       }
     });
 
     socket.on("codeResult", (result) => {
       setResult(result);
+    });
+
+    socket.on("chooseCase", (data) => {
+      setQuestion(data);
+    });
+
+    socket.on("removeCodeQuestion", (id) => {
+      setQuestion({});
+      setCode("");
     });
     // eslint-disable-next-line
   }, [socket]);
@@ -66,7 +76,7 @@ export default function MeetingScreen() {
 
   const onSubmit = () => {
     CodeController.submit(question.id, selectedLanguage, code).then((res) => {
-      socket.emit("codeResult", 1, res.data.content.result);
+      socket.emit("codeResult", roomId, res.data.content.result);
     });
   };
 
@@ -136,7 +146,7 @@ export default function MeetingScreen() {
                       <span className="sr-only">Open user menu</span>
                       <img
                         className="h-8 w-8 rounded-full"
-                        src={user.imageUrl}
+                        src={user !== null && user.imageUrl}
                         alt=""
                       />
                     </Menu.Button>
@@ -231,7 +241,7 @@ export default function MeetingScreen() {
                     )[0].style
                   );
                   setCode("");
-                  socket.emit("writeCode", 1, "", parsed.id);
+                  socket.emit("writeCode", roomId, "", user.id);
                 }}
               >
                 {languages.map((res) => (
@@ -248,7 +258,7 @@ export default function MeetingScreen() {
                 value={code}
                 setValue={(val) => {
                   setCode(val);
-                  socket.emit("writeCode", 1, val, parsed.id);
+                  socket.emit("writeCode", roomId, val, user.id);
                 }}
                 width="100%"
                 height="100vh"
@@ -257,13 +267,45 @@ export default function MeetingScreen() {
               />
               <div className="w-full py-3 flex">
                 <span>{result}</span>
-                <button
-                  type="button"
-                  className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                  onClick={onSubmit}
-                >
-                  Submit
-                </button>
+                {user !== null && user.role_id === 1 && (
+                  <button
+                    type="button"
+                    className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    onClick={onSubmit}
+                  >
+                    Submit
+                  </button>
+                )}
+                {user !== null && user.role_id > 1 && (
+                  <>
+                    <select
+                      value={selectedQuestionId}
+                      onChange={(e) => {
+                        setSelectedQuestionId(e.target.value);
+                        setSelectedQuestion(
+                          questionList.filter(
+                            (res) =>
+                              res.id.toString() === e.target.value.toString()
+                          )[0]
+                        );
+                      }}
+                    >
+                      <option value=""></option>
+                      {questionList.map((res) => (
+                        <option value={res.id}>{res.name}</option>
+                      ))}
+                    </select>
+                    <button
+                      type="button"
+                      className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      onClick={() => {
+                        socket.emit("chooseCase", roomId, selectedQuestion);
+                      }}
+                    >
+                      Submit
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           </aside>

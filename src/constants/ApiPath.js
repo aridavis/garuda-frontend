@@ -2,6 +2,7 @@ import { Constant } from "./Constant";
 
 export const ApiPath = {
   GET_CP_QUESTION_DETAIL: Constant.API_PATH + "/codes/{}",
+  GET_CP_QUESTION_LIST: Constant.API_PATH + "/codes",
   SUBMIT_CP_QUESTION: Constant.API_PATH + "/codes/submit",
 
   LOGIN: Constant.API_PATH + "/auth/login",
@@ -22,4 +23,6 @@ export const ApiPath = {
 
   COMPANY_LOGIN: Constant.API_PATH + "/auth/co/login",
   COMPANY_JOB_LIST: Constant.API_PATH + "/co/jobs/filter",
+
+  ANSWER: Constant.API_PATH + "/application-process/answer",
 };

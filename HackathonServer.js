@@ -50,6 +50,12 @@ io.on("connection", (socket) => {
   socket.on("codeResult", (roomId, status) => {
     io.to(roomId).emit("codeResult", status);
   });
+
+  socket.on("chooseCase", (roomId, data) => {
+    io.to(roomId).emit("chooseCase", data);
+  });
 });
 
-hackathonServer.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+hackathonServer.listen(PORT, () =>
+  console.log(`Server is running on port ${PORT}`)
+);

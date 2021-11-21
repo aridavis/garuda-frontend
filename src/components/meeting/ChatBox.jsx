@@ -1,15 +1,19 @@
-import { div, TextField } from "@mui/material";
-import React, { useEffect, useRef, useState } from "react";
+import { TextField } from "@mui/material";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { MeetingContext } from "../../context/MeetingContext";
 
 export default function ChatBox({ socket }) {
   const [chats, setChats] = useState([]);
   const [message, setMessage] = useState("");
   const messagesEndRef = useRef(null);
 
+  const { roomId } = useContext(MeetingContext);
+
   useEffect(() => {
-    socket.emit("joinRoom", 1);
-    // eslint-disable-next-line
-  }, []);
+    if (roomId !== null) {
+      socket.emit("joinRoom", roomId);
+    }
+  }, [roomId]);
 
   useEffect(() => {
     socket.on("chatSent", (message) => {
@@ -35,7 +39,7 @@ export default function ChatBox({ socket }) {
   return (
     <div className="flex flex-col h-full">
       <div
-      className="flex-1"
+        className="flex-1"
         style={{
           height: "calc(100% - 60px)",
           minHeight: "calc(100% - 60px)",

@@ -1,10 +1,9 @@
-
-import React from 'react';
-import { useParams } from 'react-router';
-import QuestionContainer from '../basictest/QuestionContainer'
+import React from "react";
+import { useParams } from "react-router";
+import QuestionContainer from "../basictest/QuestionContainer";
 
 function ApplicationTestScreen(props) {
-  const id = useParams().testid;
+  const id = useParams().id;
 
   return (
     <main className="overflow-hidden">
@@ -15,7 +14,8 @@ function ApplicationTestScreen(props) {
               Apptitude Test
             </h1>
             <p className="mt-6 text-xl text-warm-gray-500 max-w-3xl">
-              Please answer truthfully as this is an assessment to determine your score
+              Please answer truthfully as this is an assessment to determine
+              your score
             </p>
           </div>
         </div>
@@ -68,10 +68,8 @@ function ApplicationTestScreen(props) {
           <div className="relative bg-white shadow-xl">
             <div className="grid grid-cols-1 ">
               <div className="py-10 px-6 sm:px-10 xl:p-12">
-                <form
-                  className="mt-6 grid grid-cols-1 gap-y-6 sm:gap-x-8"
-                >
-                  <QuestionContainer applicationProcessId={id} />                  
+                <form className="mt-6 grid grid-cols-1 gap-y-6 sm:gap-x-8">
+                  <QuestionContainer applicationProcessId={id} />
                 </form>
               </div>
             </div>
