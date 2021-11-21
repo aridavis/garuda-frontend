@@ -2,6 +2,7 @@ import React, { createContext, useState, useRef, useEffect } from "react";
 import { io } from "socket.io-client";
 import Peer from "simple-peer";
 import { Constant } from "../constants/Constant";
+import { useParams } from "react-router-dom";
 
 const MeetingContext = createContext();
 
@@ -14,26 +15,31 @@ const MeetingContextProvider = ({ children }) => {
   const [name, setName] = useState("");
   const [call, setCall] = useState({});
   const [me, setMe] = useState("");
+  const [roomId, setRoomId] = useState("");
 
   const myVideo = useRef();
   const userVideo = useRef();
   const connectionRef = useRef();
+
+  const { id } = useParams();
 
   useEffect(() => {
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: true })
       .then((currentStream) => {
         setStream(currentStream);
-
         myVideo.current.srcObject = currentStream;
       });
-
     socket.on("me", (id) => setMe(id));
 
     socket.on("callUser", ({ from, name: callerName, signal }) => {
       setCall({ isReceivingCall: true, from, name: callerName, signal });
     });
   }, []);
+
+  useEffect(() => {
+    setRoomId(id);
+  }, [id]);
 
   const answerCall = () => {
     setCallAccepted(true);
@@ -101,6 +107,7 @@ const MeetingContextProvider = ({ children }) => {
         callUser,
         leaveCall,
         answerCall,
+        roomId,
       }}
     >
       {children}

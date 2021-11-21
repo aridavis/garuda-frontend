@@ -17,7 +17,6 @@ export default function ApplicationScreen() {
       },
     }).then((res) => {
       setApplications(res.data.contents);
-      console.log(res.data.contents);
     });
   }, []);
 

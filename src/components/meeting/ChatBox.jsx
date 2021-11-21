@@ -1,15 +1,19 @@
 import { Grid, TextField } from "@mui/material";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { MeetingContext } from "../../context/MeetingContext";
 
 export default function ChatBox({ socket }) {
   const [chats, setChats] = useState([]);
   const [message, setMessage] = useState("");
   const messagesEndRef = useRef(null);
 
+  const { roomId } = useContext(MeetingContext);
+
   useEffect(() => {
-    socket.emit("joinRoom", 1);
-    // eslint-disable-next-line
-  }, []);
+    if (roomId !== null) {
+      socket.emit("joinRoom", roomId);
+    }
+  }, [roomId]);
 
   useEffect(() => {
     socket.on("chatSent", (message) => {

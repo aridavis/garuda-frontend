@@ -14,7 +14,6 @@ import SnackbarUtils from "./utils/SnackbarUtils";
 import { useSnackbar } from "notistack";
 import JobScreen from "./pages/job/JobScreen";
 import ApplicationScreen from "./pages/application/ApplicationScreen";
-import QuestionContainer from "./pages/basictest/QuestionContainer";
 import ApplicationDetailScreen from "./pages/applicationdetail/ApplicationDetailScreen";
 import ApplicationTestScreen from "./pages/applicationtest/ApplicationTestScreen";
 import CourseScreen from "./pages/courses/CourseScreen";
@@ -46,7 +45,7 @@ const App = () => {
               />
               <Route
                 exact
-                path="/meeting"
+                path="/meeting/:id"
                 element={
                   <MeetingContextProvider>
                     <MeetingScreen />
@@ -66,15 +65,10 @@ const App = () => {
               />
               <Route
                 exact
-                path="/application-test/:testid"
+                path="/aptitude-test/:id"
                 element={<ApplicationTestScreen />}
               />
               <Route exact path="/workshop" element={<JobScreen />} />
-              <Route
-                exact
-                path="/aptitude-test"
-                element={<QuestionContainer />}
-              />
             </Routes>
           </Router>
         </div>

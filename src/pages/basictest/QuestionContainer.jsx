@@ -1,10 +1,26 @@
 import React, { useEffect, useState } from "react";
 import QuestionController from "../../controllers/QuestionController";
 import Question from "./Question";
+import SnackbarUtils from "../../utils/SnackbarUtils";
 
 export default function QuestionContainer({ applicationProcessId }) {
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState([]);
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    QuestionController.answer({
+      application_process_id: applicationProcessId,
+      answers: answers,
+    }).then((res) => {
+      SnackbarUtils.success(
+        "Success answering question, please proceed to the next step."
+      );
+      setTimeout(() => {
+        window.location.href = "/application-detail/" + applicationProcessId;
+      }, 1000);
+    });
+  };
 
   useEffect(() => {
     QuestionController.getQuestionList().then((res) => {
@@ -45,6 +61,7 @@ export default function QuestionContainer({ applicationProcessId }) {
         <button
           type="submit"
           className="flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+          onClick={onSubmit}
         >
           Submit
         </button>
