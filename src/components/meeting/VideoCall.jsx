@@ -3,12 +3,15 @@ import { Button, TextField } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
 import { MeetingContext } from "../../context/MeetingContext";
+import { UserContext } from "../../context/UserContext";
+import { MeetingController } from "../../controllers/MeetingController";
+import { useParams } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   gridContainer: {
     height: "60%",
     display: "block !important",
-    boxSizing: 'borsder-box'
+    boxSizing: "borsder-box",
   },
   paper: {
     padding: "10px",
@@ -33,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const VideoCall = (props) => {
-  console.log(props)
+  console.log(props);
   const [target, setTarget] = useState("");
   const {
     callAccepted,
@@ -48,10 +51,32 @@ const VideoCall = (props) => {
   } = useContext(MeetingContext);
   const classes = useStyles();
 
-  useEffect(() => { }, []);
+  const { id } = useParams();
+  const { user } = useContext(UserContext);
+
+  const [meetingData, setMeetingData] = useState({});
+
+  useEffect(() => {
+    MeetingController.getMeetingDetail(id).then((res) => {
+      if (
+        id !== null &&
+        id !== undefined &&
+        user !== null &&
+        user.role_id === 1
+      ) {
+        callUser(res.data.content.socket_id);
+      }
+    });
+  }, [user]);
+
+  useEffect(() => {}, []);
 
   return (
-    <div className={`grid grid-cols-2 gap-4 sm:gap-x-6 sm:gap-y-6 sm:space-y-0 lg:gap-x-8 m-auto ${props.isLiveCode && "lg:flex flex-col"}`}>
+    <div
+      className={`grid grid-cols-2 gap-4 sm:gap-x-6 sm:gap-y-6 sm:space-y-0 lg:gap-x-8 m-auto ${
+        props.isLiveCode && "lg:flex flex-col"
+      }`}
+    >
       {callAccepted && !callEnded ? (
         <div className={`${classes.videoContainer} rounded-xl`}>
           <video
@@ -65,20 +90,11 @@ const VideoCall = (props) => {
         <div
           className={`${classes.videoContainer} rounded-xl`}
           style={{ backgroundColor: "grey" }}
-        >
-          {call.isReceivingCall && !callAccepted && (
-            <div style={{ display: "flex", padding: "10px" }}>
-              <Button variant="contained" color="primary" onClick={answerCall}>
-                Answer
-              </Button>
-            </div>
-          )}
-        </div>
+        ></div>
       )}
 
       {stream && (
-        <div
-          className={`${classes.videoContainer} rounded-xl overflow-hidden`}>
+        <div className={`${classes.videoContainer} rounded-xl overflow-hidden`}>
           <video
             playsInline
             muted
@@ -89,19 +105,11 @@ const VideoCall = (props) => {
           <div className="w-full bg-gray-400 absolute">{me}</div>
         </div>
       )}
-      <div className="flex justify-center flex-col col-span-2">
-        <TextField
-          value={target}
-          onChange={(e) => setTarget(e.currentTarget.value)}
-        />
-        <Button
-          onClick={() => {
-            callUser(target);
-          }}
-        >
-          join
+      {call.isReceivingCall && !callAccepted && (
+        <Button variant="contained" color="primary" onClick={answerCall}>
+          Answer
         </Button>
-      </div>
+      )}
     </div>
   );
 };

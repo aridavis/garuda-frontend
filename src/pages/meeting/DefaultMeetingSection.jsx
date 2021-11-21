@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "highlight.js/styles/dracula.css";
 import VideoCall from "../../components/meeting/VideoCall";
 import ChatBox from "../../components/meeting/ChatBox";
@@ -6,11 +6,18 @@ import { io } from "socket.io-client";
 import { Constant } from "../../constants/Constant";
 import MeetingControl from "../../components/meeting/MeetingControl";
 import { Transition } from "@headlessui/react";
+import { MeetingContext } from "../../context/MeetingContext";
 
 const socket = io(Constant.SOCKET_URL);
 
 function DefaultMeetingSection(props) {
-  const [isChatOpen, setisChatOpen] = useState(false)
+  const [isChatOpen, setisChatOpen] = useState(false);
+
+  const { updateVideo } = useContext(MeetingContext);
+
+  useEffect(() => {
+    updateVideo();
+  });
 
   return (
     <div className="h-screen overflow-hidden bg-gray-100 flex flex-col">
@@ -39,11 +46,13 @@ function DefaultMeetingSection(props) {
           </section>
         </main>
       </div>
-      <MeetingControl toggleChat={() => {
-        setisChatOpen(!isChatOpen)
-      }} />
+      <MeetingControl
+        toggleChat={() => {
+          setisChatOpen(!isChatOpen);
+        }}
+      />
     </div>
-  )
+  );
 }
 
 export default DefaultMeetingSection;

@@ -18,18 +18,23 @@ const socket = io(Constant.SOCKET_URL);
 
 function LiveCodeMeetingSection(props) {
   const { user } = useContext(UserContext);
-  const { roomId, me } = useContext(MeetingContext);
+  const { roomId, me, updateVideo } = useContext(MeetingContext);
   const [question, setQuestion] = useState({});
   const [questionList, setQuestionList] = useState([]);
   const [selectedQuestion, setSelectedQuestion] = useState({});
   const [selectedQuestionId, setSelectedQuestionId] = useState("");
   const [selectedLanguage, setSelectedLanguage] = useState(languages[0].id);
   const [result, setResult] = useState("");
+  const [isChatOpen, setIsChatOpen] = useState(false);
   const [selectedLanguageStyle, setselectedLanguageStyle] = useState(
     languages[0].style
   );
 
   const [code, setCode] = useState("");
+
+  useEffect(() => {
+    updateVideo();
+  });
 
   useEffect(() => {
     if (user !== null && user.role_id > 1 && me !== null && roomId !== null) {
