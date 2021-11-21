@@ -72,7 +72,8 @@ function CVReviewConfirmDialog(props) {
                   </Dialog.Title>
                   <div className="mt-2">
                     <p className="text-sm text-gray-500">
-                      Please choose the result for the CV review for the candidate process. 
+                      Please choose the result for the CV review for the
+                      candidate process.
                     </p>
                   </div>
                 </div>
@@ -82,6 +83,19 @@ function CVReviewConfirmDialog(props) {
                   type="button"
                   className="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm"
                   onClick={() => {
+                    ApplicationController.pass(
+                      props.applicationProcessId,
+                      "CV Pass"
+                    )
+                      .then((res) => {
+                        SnackbarUtils.success("Success passing CV");
+                        setTimeout(() => {
+                          window.location.reload();
+                        }, 1000);
+                      })
+                      .catch((err) => {
+                        SnackbarUtils.error("There is an error");
+                      });
                   }}
                 >
                   Pass
@@ -90,9 +104,22 @@ function CVReviewConfirmDialog(props) {
                   type="button"
                   className="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
                   onClick={() => {
+                    ApplicationController.fail(
+                      props.applicationProcessId,
+                      "CV Rejected"
+                    )
+                      .then((res) => {
+                        SnackbarUtils.success("Success rejecting CV");
+                        setTimeout(() => {
+                          window.location.reload();
+                        }, 1000);
+                      })
+                      .catch((err) => {
+                        SnackbarUtils.error("There is an error");
+                      });
                   }}
                 >
-                  Fail
+                  Reject
                 </button>
               </div>
             </div>

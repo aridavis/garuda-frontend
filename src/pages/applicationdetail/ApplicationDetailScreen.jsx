@@ -12,11 +12,12 @@ function ApplicationDetailScreen(props) {
   const [application, setapplication] = useState({});
   const [result, setResult] = useState('')
 
-  const { user } = useContext(UserContext);
-  console.log(user);
+  const [user, setUser] = useState({});
+
   useEffect(() => {
     ApplicationController.getApplicationDetail(id).then((res) => {
       setapplication(res.data.content);
+      setUser(res.data.content.user);
     });
     // eslint-disable-next-line
   }, []);
@@ -157,7 +158,10 @@ function ApplicationDetailScreen(props) {
               </h3>
             </div>
             <div className="mt-5 border-t border-gray-200">
-              <ApplicationProcess steps={application.process} />
+              <ApplicationProcess
+                steps={application.process}
+                cv={application.cv_url}
+              />
             </div>
           </>
         )}

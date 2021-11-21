@@ -7,59 +7,31 @@ import logo from "../../assets/logo.png"
 
 function SignInScreen() {
   const inputs = [
-    generateInputFieldProps(
-      "first_name",
-      "First Name",
-      "text"
-    ),
-    generateInputFieldProps(
-      "last_name",
-      "Last Name",
-      "text"
-    ),
-    generateInputFieldProps(
-      "country",
-      "Country",
-      "text"
-    ),
-    generateInputFieldProps(
-      "address",
-      "Street Address",
-      "text"
-    ),
+    generateInputFieldProps("first_name", "First Name", "text"),
+    generateInputFieldProps("last_name", "Last Name", "text"),
+    generateInputFieldProps("country", "Country", "text"),
+    generateInputFieldProps("address", "Street Address", "text"),
     generateInputFieldProps("city", "City", "text"),
     generateInputFieldProps("state", "State", "text"),
     generateInputFieldProps("email", "Email", "text"),
-    generateInputFieldProps(
-      "password",
-      "Password",
-      "password"
-    ),
-    generateInputFieldProps(
-      "dob",
-      "Date Of Birth",
-      "date"
-    ),
-    generateInputFieldProps(
-      "phone",
-      "Phone Number",
-      "text"
-    ),
-    generateInputFieldProps(
-      "image_url",
-      "Profile Picture",
-      "image"
-    ),
+    generateInputFieldProps("password", "Password", "password"),
+    generateInputFieldProps("dob", "Date Of Birth", "date"),
+    generateInputFieldProps("phone", "Phone Number", "text"),
+    generateInputFieldProps("image_url", "Profile Picture", "image"),
   ];
 
   const formik = useFormik({
     initialValues: {},
     onSubmit: (values, formikHelpers) => {
-      UserController.registerJobseeker(formik.values).then((res) => {
-        SnackbarUtils.success(
-          "Success registering user, please sign in again."
-        );
-      });
+      UserController.registerJobseeker(formik.values)
+        .then((res) => {
+          SnackbarUtils.success(
+            "Success registering user, please sign in again."
+          );
+        })
+        .catch((err) => {
+          SnackbarUtils.error("There is an error");
+        });
     },
   });
 

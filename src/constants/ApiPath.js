@@ -17,6 +17,7 @@ export const ApiPath = {
 
   APPLY_JOB: Constant.API_PATH + "/applications/store",
   GET_APPLICATION_LIST: Constant.API_PATH + "/applications/filter",
+  GET_APPLICATION_LIST_COMPANY: Constant.API_PATH + "/co/applications/filter",
   GET_APPLICATION_DETAIL: Constant.API_PATH + "/applications/{}",
 
   QUESTION_LIST: Constant.API_PATH + "/basic-questions",
@@ -25,4 +26,8 @@ export const ApiPath = {
   COMPANY_JOB_LIST: Constant.API_PATH + "/co/jobs/filter",
 
   ANSWER: Constant.API_PATH + "/application-process/answer",
+  UPLOAD_CV: Constant.API_PATH + "/application-process/cv",
+  GET_APPLICATION_PROCESS_DETAIL: Constant.API_PATH + "/application-process/{}",
+  PASS: Constant.API_PATH + "/application-process/pass",
+  FAIL: Constant.API_PATH + "/application-process/fail",
 };

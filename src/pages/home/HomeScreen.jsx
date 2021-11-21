@@ -1,38 +1,37 @@
-import { CheckIcon } from '@heroicons/react/outline'
-import { Fragment } from 'react'
-import { Popover, Transition } from '@headlessui/react'
-import {
-  MenuIcon,
-  XIcon,
-} from '@heroicons/react/outline'
+import { CheckIcon } from "@heroicons/react/outline";
+import { Fragment } from "react";
+import { Popover, Transition } from "@headlessui/react";
+import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import logo from "../../assets/logo.png";
 import job from "../../assets/job.jpg"
 
 function HomeScreen() {
   const type = [
     {
-      name: 'Company',
-      href: '/co/login',
+      name: "Company",
+      href: "/co/login",
       priceMonthly: 49,
-      description: 'For recruiter who are looking to open new opportunity or find the right people to scale up their business',
+      description:
+        "For recruiter who are looking to open new opportunity or find the right people to scale up their business",
       features: [
-        'Track recruitment process',
-        'Customized recruitment steps provided for personal assessment, HR interview, etc.',
-        'Hold a live workshop',
+        "Track recruitment process",
+        "Customized recruitment steps provided for personal assessment, HR interview, etc.",
+        "Hold a live workshop",
       ],
     },
     {
-      name: 'Job Seekers',
-      href: '/login',
+      name: "Job Seekers",
+      href: "/login",
       priceMonthly: 79,
-      description: 'For people that wanted to find new opportunity and level up their knowledge from various industry knowledge',
+      description:
+        "For people that wanted to find new opportunity and level up their knowledge from various industry knowledge",
       features: [
-        'Job opportunity recomendation',
-        'Easy job application proccess in one app',
-        'Professional CV maker',
+        "Job opportunity recomendation",
+        "Easy job application proccess in one app",
+        "Professional CV maker",
       ],
     },
-  ]
+  ];
 
   return (
     <>
@@ -45,11 +44,7 @@ function HomeScreen() {
                   <div className="flex justify-start lg:w-0 lg:flex-1">
                     <a href="/">
                       <span className="sr-only">Workflow</span>
-                      <img
-                        className="h-8 w-auto sm:h-10"
-                        src={logo}
-                        alt=""
-                      />
+                      <img className="h-8 w-auto sm:h-10" src={logo} alt="" />
                     </a>
                   </div>
                   <div className="-mr-2 -my-2 md:hidden">
@@ -59,14 +54,17 @@ function HomeScreen() {
                     </Popover.Button>
                   </div>
                   <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-                    <a href="/login" className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900">
+                    <a
+                      href="/login"
+                      className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
+                    >
                       Log in
                     </a>
                     <a
-                      href="/signin"
+                      href="/register"
                       className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-primary hover:bg-primary"
                     >
-                      Sign in
+                      Register
                     </a>
                   </div>
                 </div>
@@ -115,8 +113,8 @@ function HomeScreen() {
                         </a>
                         <p className="mt-6 text-center text-base font-medium text-gray-500">
                           Dont have account?&nbsp;
-                          <a href="/signin" className="text-primary">
-                            Sign in
+                          <a href="/register" className="text-primary">
+                            Register
                           </a>
                         </p>
                       </div>
@@ -132,11 +130,12 @@ function HomeScreen() {
           <div className="mx-auto max-w-7xl w-full pt-16 pb-20 text-center lg:py-48 lg:text-left">
             <div className="px-4 lg:w-1/2 sm:px-8 xl:pr-16">
               <h1 className="text-4xl tracking-tight font-extrabold sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl">
-                <span className="block text-primary ">Findind jobs</span>{' '}
+                <span className="block text-primary ">Findind jobs</span>{" "}
                 <span className="block text-third ">has never been easier</span>
               </h1>
               <p className="mt-3 max-w-md mx-auto text-lg text-gray-500 sm:text-xl md:mt-5 md:max-w-3xl">
-                We help you meet your job by simplifying the process and help you level up your knowledge
+                We help you meet your job by simplifying the process and help
+                you level up your knowledge
               </p>
               <div className="mt-10 sm:flex sm:justify-center lg:justify-start">
                 <div className="rounded-md shadow">
@@ -178,21 +177,31 @@ function HomeScreen() {
             <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="max-w-md mx-auto space-y-4 lg:max-w-5xl lg:grid lg:grid-cols-2 lg:gap-5 lg:space-y-0">
                 {type.map((tier) => (
-                  <div key={tier.name} className="flex flex-col rounded-lg shadow-lg overflow-hidden">
+                  <div
+                    key={tier.name}
+                    className="flex flex-col rounded-lg shadow-lg overflow-hidden"
+                  >
                     <div className="px-6 py-8 bg-white sm:p-10 sm:pb-6">
                       <div className="mt-4 flex items-baseline text-6xl font-extrabold text-primary">
                         {tier.name}
                       </div>
-                      <p className="mt-5 text-lg text-gray-500">{tier.description}</p>
+                      <p className="mt-5 text-lg text-gray-500">
+                        {tier.description}
+                      </p>
                     </div>
                     <div className="flex-1 flex flex-col justify-between px-6 pt-6 pb-8 bg-gray-50 space-y-6 sm:p-10 sm:pt-6">
                       <ul className="space-y-4">
                         {tier.features.map((feature) => (
                           <li key={feature} className="flex items-start">
                             <div className="flex-shrink-0">
-                              <CheckIcon className="h-6 w-6 text-green-500" aria-hidden="true" />
+                              <CheckIcon
+                                className="h-6 w-6 text-green-500"
+                                aria-hidden="true"
+                              />
                             </div>
-                            <p className="ml-3 text-base text-gray-700">{feature}</p>
+                            <p className="ml-3 text-base text-gray-700">
+                              {feature}
+                            </p>
                           </li>
                         ))}
                       </ul>
@@ -214,7 +223,7 @@ function HomeScreen() {
         </div>
       </div>
     </>
-  )
+  );
 }
 
 export default HomeScreen;
