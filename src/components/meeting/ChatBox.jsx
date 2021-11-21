@@ -1,13 +1,14 @@
 import { TextField } from "@mui/material";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { MeetingContext } from "../../context/MeetingContext";
+import { UserContext } from "../../context/UserContext";
 
-export default function ChatBox({ socket }) {
-  const [chats, setChats] = useState([]);
+export default function ChatBox({ socket, chats }) {
   const [message, setMessage] = useState("");
   const messagesEndRef = useRef(null);
 
   const { roomId } = useContext(MeetingContext);
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     if (roomId !== null) {
@@ -15,18 +16,9 @@ export default function ChatBox({ socket }) {
     }
   }, [roomId]);
 
-  useEffect(() => {
-    socket.on("chatSent", (message) => {
-      let temp = chats;
-      temp.push(message);
-      setChats([...temp]);
-    });
-    // eslint-disable-next-line
-  }, [socket]);
-
   const onSubmit = (e) => {
     e.preventDefault();
-    socket.emit("sendChat", 1, message);
+    socket.emit("sendChat", roomId, { message: message, from: user.id });
     setMessage("");
   };
 
@@ -44,11 +36,34 @@ export default function ChatBox({ socket }) {
           height: "calc(100% - 60px)",
           minHeight: "calc(100% - 60px)",
           overflowY: "scroll",
+          boxSizing: "border-box",
         }}
       >
-        {chats.map((res) => (
-          <p>{res}</p>
-        ))}
+        {chats.map((res) =>
+          res.from !== user.id ? (
+            <div
+              className="mr-10 bg-green-800 text-white p-3 my-1"
+              style={{
+                borderRadius: "10px",
+                boxSizing: "border-box",
+                width: "88%",
+              }}
+            >
+              <p>{res.message}</p>
+            </div>
+          ) : (
+            <div
+              className="w-full ml-10 bg-green-800 text-white p-3 my-1 "
+              style={{
+                borderRadius: "10px",
+                boxSizing: "border-box",
+                width: "88%",
+              }}
+            >
+              <p>{res.message}</p>
+            </div>
+          )
+        )}
         <div ref={messagesEndRef} />
       </div>
       <div>

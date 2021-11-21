@@ -2,7 +2,6 @@ import { CheckIcon } from "@heroicons/react/outline";
 import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
-import logo from "../../assets/logo.png";
 import job from "../../assets/job.jpg"
 
 function HomeScreen() {
@@ -44,7 +43,7 @@ function HomeScreen() {
                   <div className="flex justify-start lg:w-0 lg:flex-1">
                     <a href="/">
                       <span className="sr-only">Workflow</span>
-                      <img className="h-8 w-auto sm:h-10" src={logo} alt="" />
+                      <img className="h-8 w-auto sm:h-10" src="/logo.png" alt="" />
                     </a>
                   </div>
                   <div className="-mr-2 -my-2 md:hidden">
@@ -91,7 +90,7 @@ function HomeScreen() {
                         <div>
                           <img
                             className="h-8 w-auto"
-                            src={logo}
+                            src="/logo.png"
                             alt="Workflow"
                           />
                         </div>

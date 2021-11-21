@@ -1,19 +1,32 @@
-import { ChatIcon, InformationCircleIcon } from '@heroicons/react/outline';
-import { Mic, MicOff, Videocam, VideocamOff } from '@mui/icons-material';
-import React, { useState } from 'react';
-import MeetingDetailDialog from './MeetingDetailDialog';
+import { ChatIcon, InformationCircleIcon } from "@heroicons/react/outline";
+import { Call, Mic, MicOff, Videocam, VideocamOff } from "@mui/icons-material";
+import React, { useContext, useEffect, useState } from "react";
+import MeetingDetailDialog from "./MeetingDetailDialog";
+import { MeetingController } from "../../controllers/MeetingController";
+import { useParams } from "react-router-dom";
+import { UserContext } from "../../context/UserContext";
 
 function MeetingControl(props) {
-  const [isStreamingMic, setIsStreamingMic] = useState(false)
-  const [isStreamingVideo, setIsStreamingVideo] = useState(false)
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [isStreamingMic, setIsStreamingMic] = useState(false);
+  const [isStreamingVideo, setIsStreamingVideo] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const { id } = useParams();
+
+  const [meetingData, setMeetingData] = useState({});
+
+  useEffect(() => {
+    MeetingController.getMeetingDetail(id).then((res) => {
+      setMeetingData(res.data.content);
+    });
+  }, [id]);
 
   return (
     <div className="flex-shrink-0 relative h-16 bg-white flex items-center">
       <MeetingDetailDialog
         isOpen={isDialogOpen}
         closeDialog={() => {
-          setIsDialogOpen(false)
+          setIsDialogOpen(false);
         }}
       />
       <div className="m-auto">
@@ -23,35 +36,35 @@ function MeetingControl(props) {
               <button
                 className="-mx-1 bg-white p-1 rounded-full text-gray-400 hover:text-gray-500"
                 onClick={() => {
-                  setIsStreamingMic(!isStreamingMic)
+                  setIsStreamingMic(!isStreamingMic);
                 }}
               >
-                {
-                  isStreamingMic ?
-                    <Mic className="h-6 w-6" aria-hidden="true" /> :
-                    <MicOff className="h-6 w-6" aria-hidden="true" />
-                }
+                {isStreamingMic ? (
+                  <Mic className="h-6 w-6" aria-hidden="true" />
+                ) : (
+                  <MicOff className="h-6 w-6" aria-hidden="true" />
+                )}
               </button>
             </span>
             <span className="inline-flex">
               <button
                 className="-mx-1 bg-white p-1 rounded-full text-gray-400 hover:text-gray-500"
                 onClick={() => {
-                  setIsStreamingVideo(!isStreamingVideo)
+                  setIsStreamingVideo(!isStreamingVideo);
                 }}
               >
-                {
-                  isStreamingVideo ?
-                    <Videocam className="h-6 w-6" aria-hidden="true" /> :
-                    <VideocamOff className="h-6 w-6" aria-hidden="true" />
-                }
+                {isStreamingVideo ? (
+                  <Videocam className="h-6 w-6" aria-hidden="true" />
+                ) : (
+                  <VideocamOff className="h-6 w-6" aria-hidden="true" />
+                )}
               </button>
             </span>
             <span className="inline-flex">
               <button
                 className="-mx-1 bg-white p-1 rounded-full text-gray-400 hover:text-gray-500"
                 onClick={() => {
-                  setIsDialogOpen(true)
+                  setIsDialogOpen(true);
                 }}
               >
                 <InformationCircleIcon className="h-6 w-6" aria-hidden="true" />
@@ -63,6 +76,17 @@ function MeetingControl(props) {
                 onClick={props.toggleChat}
               >
                 <ChatIcon className="h-6 w-6" aria-hidden="true" />
+              </button>
+            </span>
+            <span className="inline-flex">
+              <button
+                className="-mx-1 bg-white p-1 rounded-full text-gray-400 hover:text-gray-500"
+                onClick={() => {
+                  window.location.href =
+                    "/application-detail/" + meetingData.process.application_id;
+                }}
+              >
+                <Call className="h-6 w-6" aria-hidden="true" />
               </button>
             </span>
           </div>

@@ -13,6 +13,17 @@ const socket = io(Constant.SOCKET_URL);
 function DefaultMeetingSection(props) {
   const [isChatOpen, setisChatOpen] = useState(false);
 
+  const [chats, setChats] = useState([]);
+
+  useEffect(() => {
+    socket.on("chatSent", (message) => {
+      let temp = chats;
+      temp.push(message);
+      setChats([...temp]);
+    });
+    // eslint-disable-next-line
+  }, [socket]);
+
   const { updateVideo } = useContext(MeetingContext);
 
   useEffect(() => {
@@ -39,7 +50,7 @@ function DefaultMeetingSection(props) {
                 className="flex h-full"
               >
                 <div className="h-full w-96 bg-white">
-                  <ChatBox socket={socket} />
+                  <ChatBox socket={socket} chats={chats} />
                 </div>
               </Transition.Child>
             </Transition>
