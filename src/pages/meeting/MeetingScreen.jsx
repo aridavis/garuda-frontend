@@ -11,6 +11,7 @@ import { io } from "socket.io-client";
 import { Constant } from "../../constants/Constant";
 import { UserContext } from "../../context/UserContext";
 import { MeetingContext } from "../../context/MeetingContext";
+import SnackbarUtils from "../../utils/SnackbarUtils";
 const queryString = require("query-string");
 const parsed = queryString.parse(window.location.search);
 
@@ -75,9 +76,13 @@ export default function MeetingScreen() {
   }, [selectedLanguage]);
 
   const onSubmit = () => {
-    CodeController.submit(question.id, selectedLanguage, code).then((res) => {
-      socket.emit("codeResult", roomId, res.data.content.result);
-    });
+    CodeController.submit(question.id, selectedLanguage, code)
+      .then((res) => {
+        socket.emit("codeResult", roomId, res.data.content.result);
+      })
+      .catch((err) => {
+        SnackbarUtils.error("There is an error");
+      });
   };
 
   return (

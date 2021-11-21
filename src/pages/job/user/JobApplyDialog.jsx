@@ -109,9 +109,14 @@ function JobApplyDialog(props) {
                     ApplicationController.apply({
                       job_id: props.job.id,
                       user_id: user.id,
-                    }).then((res) => {
-                      SnackbarUtils.success("Success applying jobs");
-                    });
+                    })
+                      .then((res) => {
+                        SnackbarUtils.success("Success applying jobs");
+                        props.closeDialog();
+                      })
+                      .catch((err) => {
+                        SnackbarUtils.error("There is an error");
+                      });
                   }}
                 >
                   Apply

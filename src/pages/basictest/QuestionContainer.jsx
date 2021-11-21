@@ -3,7 +3,10 @@ import QuestionController from "../../controllers/QuestionController";
 import Question from "./Question";
 import SnackbarUtils from "../../utils/SnackbarUtils";
 
-export default function QuestionContainer({ applicationProcessId }) {
+export default function QuestionContainer({
+  applicationProcessId,
+  applicationId,
+}) {
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState([]);
 
@@ -12,14 +15,18 @@ export default function QuestionContainer({ applicationProcessId }) {
     QuestionController.answer({
       application_process_id: applicationProcessId,
       answers: answers,
-    }).then((res) => {
-      SnackbarUtils.success(
-        "Success answering question, please proceed to the next step."
-      );
-      setTimeout(() => {
-        window.location.href = "/application-detail/" + applicationProcessId;
-      }, 1000);
-    });
+    })
+      .then((res) => {
+        SnackbarUtils.success(
+          "Success answering question, please proceed to the next step."
+        );
+        setTimeout(() => {
+          window.location.href = "/application-detail/" + applicationId;
+        }, 1000);
+      })
+      .catch((err) => {
+        SnackbarUtils.error("There is an error");
+      });
   };
 
   useEffect(() => {

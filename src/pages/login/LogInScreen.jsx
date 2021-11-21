@@ -1,26 +1,18 @@
 import { useFormik } from "formik";
-import logo from "../../assets/logo.png";
 import InputField from "../../components/InputField";
 import { generateInputFieldProps } from "../../props/InputFieldProps";
 import { AuthController } from "../../controllers/AuthController";
 import { Constant } from "../../constants/Constant";
 import { setFormikErrors } from "../../utils/formikHelpers";
+import SnackbarUtils from "../../utils/SnackbarUtils";
 
 const cookie = require("react-cookies");
 
 function LoginScreen() {
   const inputs = [
     generateInputFieldProps("email", "Email", "text"),
-    generateInputFieldProps(
-      "password",
-      "Password",
-      "password"
-    ),
-    generateInputFieldProps(
-      "check",
-      "Remember Me",
-      "check"
-    ),
+    generateInputFieldProps("password", "Password", "password"),
+    generateInputFieldProps("check", "Remember Me", "check"),
   ];
 
   const formik = useFormik({
@@ -32,7 +24,6 @@ function LoginScreen() {
         remember_me: values.check !== undefined && values.check.length > 0,
       })
         .then((res) => {
-          console.log(res.data);
           cookie.save(Constant.ACCESS_TOKEN, res.data.access_token, {
             path: "/",
             expires: new Date(res.data.expires_at),
@@ -40,12 +31,18 @@ function LoginScreen() {
           window.location.href = "/";
         })
         .catch((err) => {
-          try {
-            if (err.response.status === 400) {
+          switch (err.response.status) {
+            case 400:
               setFormikErrors(err.response.data, formikHelpers.setFieldError);
-            }
-          } catch (err) {
-            console.log(err);
+              break;
+            case 401:
+              setFormikErrors(
+                { email: ["email or password is invalid"] },
+                formikHelpers.setFieldError
+              );
+              break;
+            default:
+              SnackbarUtils.error("Something went wrong");
           }
         });
     },
@@ -54,7 +51,7 @@ function LoginScreen() {
   return (
     <div className="min-h-screen bg-customwhite flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <img className="mx-auto h-12 w-auto" src={logo} alt="Workflow" />
+        <img className="mx-auto h-12 w-auto" src="/logo.png" alt="Workflow" />
         <h2 className="mt-6 text-center text-3xl font-extrabold text-primary">
           Log in to your account
         </h2>
@@ -100,8 +97,8 @@ function LoginScreen() {
           </div>
           <p className="mt-3 text-sm text-blue-gray-500 text-center">
             Let's setup your account first by&nbsp;
-            <a href="/signin" className="font-medium underline">
-              Sign In
+            <a href="/register" className="font-medium underline">
+              Register
             </a>
           </p>
         </div>

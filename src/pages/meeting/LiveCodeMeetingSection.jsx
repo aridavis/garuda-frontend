@@ -10,6 +10,7 @@ import ChatBox from "../../components/meeting/ChatBox";
 import { io } from "socket.io-client";
 import { Constant } from "../../constants/Constant";
 import MeetingControl from "../../components/meeting/MeetingControl";
+import SnackbarUtils from "../../utils/SnackbarUtils";
 
 const queryString = require("query-string");
 const parsed = queryString.parse(window.location.search);
@@ -17,7 +18,6 @@ const parsed = queryString.parse(window.location.search);
 const languages = require("../../json/ProgrammingLanguages.json");
 
 const socket = io(Constant.SOCKET_URL);
-
 
 function LiveCodeMeetingSection(props) {
   const [question, setQuestion] = useState({});
@@ -58,14 +58,17 @@ function LiveCodeMeetingSection(props) {
   }, [selectedLanguage]);
 
   const onSubmit = () => {
-    CodeController.submit(question.id, selectedLanguage, code).then((res) => {
-      socket.emit("codeResult", 1, res.data.content.result);
-    });
+    CodeController.submit(question.id, selectedLanguage, code)
+      .then((res) => {
+        socket.emit("codeResult", 1, res.data.content.result);
+      })
+      .catch((err) => {
+        SnackbarUtils.error("There is an error");
+      });
   };
 
   return (
     <div className="h-screen overflow-hidden bg-gray-100 flex flex-col">
-
       <div className="min-h-0 flex-1 flex overflow-hidden">
         {/* Main area */}
 
@@ -145,7 +148,7 @@ function LiveCodeMeetingSection(props) {
 
       <MeetingControl />
     </div>
-  )
+  );
 }
 
 export default LiveCodeMeetingSection;

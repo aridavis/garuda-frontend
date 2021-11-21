@@ -122,7 +122,10 @@ function ApplicationDetailScreen(props) {
               </h3>
             </div>
             <div className="mt-5 border-t border-gray-200">
-              <ApplicationProcess steps={application.process} />
+              <ApplicationProcess
+                steps={application.process}
+                cv={application.cv_url}
+              />
             </div>
           </>
         )}

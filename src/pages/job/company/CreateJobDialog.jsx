@@ -5,6 +5,7 @@ import { useFormik } from "formik";
 import InputField from "../../../components/InputField";
 import { MinusIcon, PlusIcon } from "@heroicons/react/outline";
 import { JobController } from "../../../controllers/JobController";
+import SnackbarUtils from "../../../utils/SnackbarUtils";
 
 function CreateJobDialog(props) {
   const inputs = [
@@ -29,7 +30,14 @@ function CreateJobDialog(props) {
       jobStep: [],
     },
     onSubmit: (values, formikHelpers) => {
-      JobController.createJob(values);
+      JobController.createJob(values)
+        .then((res) => {
+          SnackbarUtils.success("Success creating job");
+          props.closeDialog();
+        })
+        .catch((err) => {
+          SnackbarUtils.error("There is an error");
+        });
     },
   });
 
