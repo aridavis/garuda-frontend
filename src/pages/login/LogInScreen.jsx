@@ -31,18 +31,22 @@ function LoginScreen() {
           window.location.href = "/job";
         })
         .catch((err) => {
-          switch (err.response.status) {
-            case 400:
-              setFormikErrors(err.response.data, formikHelpers.setFieldError);
-              break;
-            case 401:
-              setFormikErrors(
-                { email: ["email or password is invalid"] },
-                formikHelpers.setFieldError
-              );
-              break;
-            default:
-              SnackbarUtils.error("Something went wrong");
+          try {
+            switch (err.response.status) {
+              case 400:
+                setFormikErrors(err.response.data, formikHelpers.setFieldError);
+                break;
+              case 401:
+                setFormikErrors(
+                  { email: ["email or password is invalid"] },
+                  formikHelpers.setFieldError
+                );
+                break;
+              default:
+                SnackbarUtils.error("Something went wrong");
+            }
+          } catch (e) {
+            console.log(e);
           }
         });
     },
